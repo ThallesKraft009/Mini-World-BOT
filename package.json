@@ -1,0 +1,17 @@
+{
+  "name": "Mini World BOT",
+  "version": "0.0.1-alpha",
+  "description": "Uma robô de Mini World: CREATA para o Discord",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "ThallesKraft",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.0.6",
+    "node-fetch": "^3.2.6"
+  }
+}
