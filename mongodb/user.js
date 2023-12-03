@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const data = new Schema({
   userID: { type: String },
-  uid: { type: Number, default: null }
+  uid: { type: String, default: "Não definido" }
 });
 
 const userdb = model('Users-Global-Mw', data);

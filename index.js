@@ -17,50 +17,62 @@ const payload = {
       $device: 'chrome',
     },
     presence: {
-            activities: [{
-              name: "Mini World: CREATA",
-              type: 0
-            }],
-            status: "dnd",
-            since: 91879201,
-            afk: false
-        },
+      activities: [{
+        name: "Mini World: CREATA",
+        type: 0
+      }],
+      status: "dnd",
+      since: 91879201,
+      afk: false
+    },
   },
 };
 
 const gatewayURL = 'wss://gateway.discord.gg/?v=10&encoding=json';
-const ws = new WebSocket(gatewayURL);
-let heartbeatInterval = null;
-let reconnectAttempts = 0;
+let ws = null;
 let reconnectInterval = 1000;
 
-ws.onopen = () => {
-  identify();
-  console.log(colors.yellow("WebSocket aberto."));
-};
+function connectWebSocket() {
+  ws = new WebSocket(gatewayURL);
 
-ws.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  if (data.op === 10) {
-    const { heartbeat_interval } = data.d;
-    heartbeatInterval = setInterval(sendHeartbeat, heartbeat_interval);
-    reconnectAttempts = 0;
-    reconnectInterval = 1000;
-  } else if (data.op === 11) {
-    console.log('Heartbeat ACK received.');
-  } else if (data.op === 0) {
-    require("./events/index.js")(data)
-  }
-};
+  ws.onopen = () => {
+    identify();
+    console.log(colors.yellow("WebSocket aberto."));
+  };
 
-ws.onerror = (error) => {
-  console.error('WebSocket error:', error.message);
-  reconnect();
-};
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    if (data.op === 10) {
+      handleHello(data.d.heartbeat_interval);
+    } else if (data.op === 11) {
+      console.log('Heartbeat ACK received.');
+    } else if (data.op === 0) {
+      require("./events/index.js")(data);
+    }
+  };
 
-ws.onclose = () => {
-  reconnect();
-};
+  ws.onerror = (error) => {
+    console.error('WebSocket error:', error.message);
+    reconnect();
+  };
+
+  ws.onclose = () => {
+    reconnect();
+  };
+}
+
+function handleHello(heartbeatInterval) {
+  const intervalId = setInterval(() => {
+    if (ws.readyState === WebSocket.OPEN) {
+      sendHeartbeat();
+    } else {
+      clearInterval(intervalId);
+      reconnect();
+    }
+  }, heartbeatInterval);
+
+  reconnectInterval = 1000;
+}
 
 function identify() {
   ws.send(JSON.stringify(payload));
@@ -71,18 +83,13 @@ function sendHeartbeat() {
 }
 
 function reconnect() {
-  clearInterval(heartbeatInterval);
-  ws.close();
-
-  reconnectAttempts++;
-  const reconnectIntervalIncrement = Math.random() * 1000;
-  const maxReconnectInterval = 60000;
-  reconnectInterval = Math.min(
-    reconnectInterval * 2 + reconnectIntervalIncrement,
-    maxReconnectInterval
-  );
-
+  console.log(colors.red("Tentando reconectar..."));
   setTimeout(() => {
-    start();
+    connectWebSocket();
   }, reconnectInterval);
+
+  reconnectInterval = Math.min(reconnectInterval * 2, 60000);
 }
+
+// Inicializa a conexão na inicialização do script
+connectWebSocket();
