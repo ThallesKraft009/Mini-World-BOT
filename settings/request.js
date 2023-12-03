@@ -1,9 +1,8 @@
-import config from './client.js';
-import c from 'colors';
-const token = config.token
+const { token } = require("./client.js");
+const c = require("colors");
 
-export default async function (endpoint, options) {
-  const url = `https://discord.com/api/v10/${endpoint}`;
+module.exports = async function (endpoint, options) {
+  const url = 'https://discord.com/api/v10/' + endpoint;
 
   if (options.body) options.body = JSON.stringify(options.body);
 
@@ -18,10 +17,9 @@ export default async function (endpoint, options) {
 
   if (!res.ok) {
     const data = await res.json();
-    console.log(`${res.status}\n`, c.red(JSON.stringify(data)));
-    // throw new Error(JSON.stringify(data));
+    console.log(res.status + "\n", c.red(JSON.stringify(data)));
+    //throw new Error(JSON.stringify(data));
   }
 
   return res;
-      }
-        
+    }

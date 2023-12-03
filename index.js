@@ -1,15 +1,10 @@
-import pkg from "websocket";
-import dotenv from "dotenv";
-dotenv.config()
-  
-const { w3cwebsocket: WebSocket } = pkg;
-import fs from 'fs';
-import colors from 'colors';
-const token = process.env.token;
-const intents = 3276799;
+const WebSocket = require('websocket').w3cwebsocket;
+const fs = require("fs");
+const colors = require("colors");
+const CONFIG = require("./settings/client.js");
 
-//const token = CONFIG.token;
-//const intents = CONFIG.intents;
+const token = CONFIG.token;
+const intents = CONFIG.intents;
 
 const payload = {
   op: 2,
@@ -22,14 +17,14 @@ const payload = {
       $device: 'chrome',
     },
     presence: {
-      activities: [{
-        name: 'Mini World: CREATA',
-        type: 0
-      }],
-      status: 'dnd',
-      since: 91879201,
-      afk: false
-    },
+            activities: [{
+              name: "Mini World: CREATA",
+              type: 0
+            }],
+            status: "dnd",
+            since: 91879201,
+            afk: false
+        },
   },
 };
 
@@ -41,7 +36,7 @@ let reconnectInterval = 1000;
 
 ws.onopen = () => {
   identify();
-  console.log(colors.yellow('WebSocket aberto.'));
+  console.log(colors.yellow("WebSocket aberto."));
 };
 
 ws.onmessage = (event) => {
@@ -54,7 +49,7 @@ ws.onmessage = (event) => {
   } else if (data.op === 11) {
     console.log('Heartbeat ACK received.');
   } else if (data.op === 0) {
-    import('./events/index.js').then((module) => module.default(data));
+    require("./events/index.js")(data)
   }
 };
 
@@ -90,5 +85,4 @@ function reconnect() {
   setTimeout(() => {
     start();
   }, reconnectInterval);
-  }
-      
+}

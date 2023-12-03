@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+const { Schema, model } = require('mongoose');
 
 const data = new Schema({
   guildID: { type: String },
@@ -10,4 +10,4 @@ const data = new Schema({
 
 const guilddb = model('Guilds', data);
 
-export { guilddb };
+module.exports = { guilddb };

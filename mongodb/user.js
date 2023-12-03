@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+const { Schema, model } = require('mongoose');
 
 const data = new Schema({
   userID: { type: String },
@@ -7,4 +7,4 @@ const data = new Schema({
 
 const userdb = model('Users-Global-Mw', data);
 
-export { userdb };
+module.exports = { userdb };
