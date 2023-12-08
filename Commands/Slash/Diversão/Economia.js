@@ -36,15 +36,145 @@ module.exports = {
         type: 6,
         required: false
       }]
+    },{
+      name: "pay",
+      name_localizations: {
+        "pt-BR": "pagar"
+      },
+      description: "Send mini beans to a member!",
+      description_localizations: {
+        "pt-BR": "Envie mini feijões para um membro!"
+      },
+      type: 1,
+      options: [{
+        name: "member",
+        name_localizations: {
+          "pt-BR": "membro"
+        },
+        description: "Mention a member",
+        type: 6,
+        required: true
+      },{
+        name: "quantity",
+        name_localizations: {
+          "pt-BR": "quantidade"
+        },
+        description: "Enter how many mini beans you want to send",
+        description_localizations: {
+          "pt-BR": "Insira quantos mini feijões você quer enviar"
+        },
+        type: 10,
+        required: true
+      }]
     }]
   },
   run: async function(interaction) {
 
     let subCmd = interaction.data.options[0].name;
 
+    if (subCmd === "pay"){
+
+      let userId = interaction.data.options[0].options[0].value;
+
+      let quantidade = interaction.data.options[0].options[1].value;
+
+      let userIsAuthor = `You cannot send mini beans to yourself`
+
+      if (interaction.locale == "pt-BR") userIsAuthor = `Você não pode enviar Mini Feijões para você mesmo!`
+
+      if (userId === interaction.member.user.id) return await DiscordRequest(
+        CALLBACK.interaction.response(
+          interaction.id, interaction.token
+        ), { 
+      method: 'POST',
+      body: {
+        type: 4,
+        data: {
+          content: `${userIsAuthor}`,
+          flags: 64
+        }
+      }
+        })
+
+
+      let db_1 = await userdb.findOne({
+        userID: interaction.member.user.id
+      })
+
+      if (!db_1){
+        let newuser = new userdb({ userID: interaction.member.user.id })
+
+        newuser.save()
+
+        db_1 = await userdb.findOne({ userID: interaction.member.user.id
+                                    })
+      }
+
+      let db_2= await userdb.findOne({
+        userID: userId
+      })
+
+      if (!db_2){
+        let newuser = new userdb({ userID: userId })
+
+        newuser.save()
+
+        db_2 = await userdb.findOne({ userID: userId
+                                    })
+      }
+
+      let money_1 = db_1.economia.moedas
+      let money_2 = db_2.economia.moedas
+
+      if (quantidade > money_1 || quantidade < 0){
+
+        let responseIf = `You don't have that many Mini Beans!`
+
+        if (interaction.locale === "pt-BR") responseIf = "Você não tem tudo isso de Mini Feijões!"
+
+        return await DiscordRequest(
+        CALLBACK.interaction.response(
+          interaction.id, interaction.token
+        ), { 
+      method: 'POST',
+      body: {
+        type: 4,
+        data: {
+          content: `${responseIf}`,
+          flags: 64
+        }
+      }
+        })
+      } else {
+
+        db_1.economia.moedas = db_1.economia.moedas - quantidade;
+        db_1.save()
+
+        db_2.economia.moedas = db_2.economia.moedas + quantidade;
+        db_2.save()
+
+        let response = `You sent ${quantidade} Mini Beans to <@${userId}>`
+
+        if (interaction.locale === "pt-BR") response = `Você enviou ${quantidade} Mini Feijões para <@${userId}>`
+
+        await DiscordRequest(
+        CALLBACK.interaction.response(
+          interaction.id, interaction.token
+        ), { 
+      method: 'POST',
+      body: {
+        type: 4,
+        data: {
+          content: `${response}`
+        }
+      }
+        })
+      }
+    }
+
       if (subCmd === "atm"){
 
-        let userId;// = interaction.data.options[0].options[0].value;
+        let userId;
 
         if (interaction.data.options[0].options.length == 0){
 
@@ -52,8 +182,6 @@ module.exports = {
         
       } else {
         userId = interaction.data.options[0].options[0].value;
-
-       //   console.log(userId)
         
         }
 

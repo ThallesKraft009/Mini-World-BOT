@@ -7,6 +7,11 @@ const data = new Schema({
   economia: {
     moedas: { type: Number, default: 0 },
     daily_time: { type: Number, default: 0 }
+  },
+
+  perfil: {
+    sobremim: { type: String, default: "Não definido "},
+    emblemas: { type: Array, default: [] }
   }
 });
 

@@ -1,4 +1,4 @@
- const { mongo, clientId } = require("../settings/client.js");
+const { mongo, clientId } = require("../settings/client.js");
 const { connect } = require("mongoose");
 const CALLBACK = require("../settings/callback.js");
 const DiscordRequest = require("../settings/request.js");
@@ -10,62 +10,59 @@ const commands = [];
 const commandsData = [];
 const commandsJson = [];
 const commandsOld = [];
+
 fs.readdirSync(`./Commands/Slash/`).forEach(dir => {
     const files = fs.readdirSync(`./Commands/Slash/${dir}/`).filter(file => file.endsWith('.js'));
 
     files.forEach((file) => {
-        let cmd = require(`../Commands/Slash/${dir}/${file}`)
+        let cmd = require(`../Commands/Slash/${dir}/${file}`);
 
         if (cmd) {
             commands[cmd.data.name] = cmd;
             commandsData.push(cmd.data);
         }
-    })
-})
+    });
+});
 
-module.exports = async(data) => {
+const isSameCommand = (cmd1, cmd2) => {
+    // Lógica para verificar se dois comandos são iguais, considerando subcomandos e grupos
+    return cmd1.name === cmd2.name &&
+        cmd1.type === cmd2.type &&
+        ((cmd1.options && cmd1.options.length > 0) ? JSON.stringify(cmd1.options) === JSON.stringify(cmd2.options) : true);
+};
 
-  let { t, d } = data;
+module.exports = async (data) => {
+    let { t, d } = data;
 
-  if (t === "READY"){
-    console.log(c.cyan("Client está Online"))
-    connect(mongo);
+    if (t === "READY") {
+        console.log(c.cyan("Client está Online"));
+        connect(mongo);
 
-   let cmdOld = await DiscordRequest(CALLBACK.interaction.commands(clientId),{
-      method: "GET"
-    })
+        let apiCommands = await DiscordRequest(CALLBACK.interaction.commands(clientId), {
+            method: "GET"
+        });
 
-    cmdOld = await cmdOld.json();
-    cmdOld.map(async(cmd) => {
+        apiCommands = await apiCommands.json();
 
-      await DiscordRequest(CALLBACK.interaction.commandsDelete(clientId, cmd.id),{
-        method: "DELETE"
-      })
-    })
+        console.log(c.yellow("Registrando slashcommand...."));
 
-    console.log(c.yellow("Registrando slashcommand...."))
+        commandsData.map(async (localCommand) => {
+            // Verifica se o comando já existe na API, considerando subcomandos e grupos
+            if (!apiCommands.some(apiCommand => isSameCommand(apiCommand, localCommand))) {
+                let cmdResponse = await DiscordRequest(CALLBACK.interaction.commands(clientId), {
+                    method: "POST",
+                    body: localCommand
+                });
 
-      commandsData.map(async(command) => {
+                cmdResponse = await cmdResponse.json();
+                commandsJson.push(cmdResponse);
+            }
+        });
 
-   let cmd = await DiscordRequest(CALLBACK.interaction.commands(clientId), {
-      method: "POST",
-      body: command
-    })
-
-        cmd = await cmd.json();
-
-        commandsJson.push(cmd);
-
-      })
-
-    console.log(c.green("SlashCommands registrados"))
-
-
-   // console.log(commandsJson)
-  } else if (t === "MESSAGE_CREATE"){
-    return Prefix(data);
-  } else if (t === "INTERACTION_CREATE"){
-    return Interaction(data, commands);
-  }
-  
-}
+        console.log(c.green("SlashCommands registrados"));
+    } else if (t === "MESSAGE_CREATE") {
+        return Prefix(data);
+    } else if (t === "INTERACTION_CREATE") {
+        return Interaction(data, commands);
+    }
+};

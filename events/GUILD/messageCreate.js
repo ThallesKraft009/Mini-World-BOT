@@ -33,12 +33,12 @@ const Prefix = async(data) => {
   let { d } = data;
   let prefix = db.bot.prefix;
 
-  if (d.content.startsWith("<@1165243701073821766>") || d.content.startsWith("<@!1165243701073821766>")){
+  if (d.content.startsWith("<@1180550435464020028>") || d.content.startsWith("<@!1180550435464020028>")){
 
     await DiscordRequest(CALLBACK.message.response(d.channel_id), {
       method: 'POST',
       body: {
-        content: `Meu prefixo aqui é **\`${db.bot.prefix}\` e use **${db.bot.prefix}ajuda ou </ajuda:12345> para ver minha lista de comandos.`,
+        content: `</bot help:12345>`,
         message_reference: {
           message_id: d.id,
           channel_id: d.channel_id,
