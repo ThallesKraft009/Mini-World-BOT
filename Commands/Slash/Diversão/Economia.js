@@ -276,7 +276,7 @@ let mention;
         if (interaction.locale === "pt-BR") response = `🚫 | Você só pode pegar seu daily novamente em ${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s !`
 
 
-          await DiscordRequest(
+          return await DiscordRequest(
         CALLBACK.interaction.response(
           interaction.id, interaction.token
         ), { 
@@ -291,7 +291,7 @@ let mention;
         })
         
         
-      }
+      } else {
       
        let response = `Today you received <:minifeijao:1180909398223245452> ${money} mini beans!!!`
 
@@ -317,7 +317,7 @@ let mention;
       }
         })
 
-      
+      }
     }
   }
 }
