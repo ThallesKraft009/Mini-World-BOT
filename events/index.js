@@ -24,11 +24,22 @@ fs.readdirSync(`./Commands/Slash/`).forEach(dir => {
     });
 });
 
+const isSameOption = (opt1, opt2) => {
+    // Lógica para verificar se duas opções são iguais
+    return opt1.name === opt2.name &&
+        opt1.type === opt2.type &&
+        ((opt1.options && opt1.options.length > 0) ? JSON.stringify(opt1.options) === JSON.stringify(opt2.options) : true);
+};
+
 const isSameCommand = (cmd1, cmd2) => {
     // Lógica para verificar se dois comandos são iguais, considerando subcomandos e grupos
     return cmd1.name === cmd2.name &&
         cmd1.type === cmd2.type &&
-        ((cmd1.options && cmd1.options.length > 0) ? JSON.stringify(cmd1.options) === JSON.stringify(cmd2.options) : true);
+        ((cmd1.options && cmd1.options.length > 0) ? 
+            cmd2.options && cmd2.options.length > 0 ?
+                cmd1.options.every(opt1 => cmd2.options.some(opt2 => isSameOption(opt1, opt2)))
+                : false
+            : true);
 };
 
 module.exports = async (data) => {

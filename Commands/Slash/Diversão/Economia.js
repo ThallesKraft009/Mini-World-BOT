@@ -264,7 +264,7 @@ let mention;
 
         await newuser.save();
 
-        db = await userdb.findObe({ userID: interaction.member.user.id })
+        db = await userdb.findOne({ userID: interaction.member.user.id })
       }
 
       if(Date.now() < db.economia.daily_time){
