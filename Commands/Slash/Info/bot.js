@@ -33,9 +33,20 @@ module.exports = {
     if (subCmd === "help"){
 
       let language = {
-        br: `</uid salvar:12345> - Salve seu Uid\n</uid pesquisar:12345> - Veja o UID de algum membro\n</minifeijões diárias:12345> - Resgate seus Mini Feijões Diárias\n</minifeijões atm:12345> - Veja quantos Mini Feijões você ou algum usuário tem\n</minifeijões pagar:12345> - Envie Mini Feijões para algum usuário\n</servidores:12345> - Veja a Lista de Servidores disponíveis de Mini World\n</bot suporte:12345> - Entre no meu servidor de Suporte\n</bot help:12345> - Veja a Lista de Comandos`,
+        br: `</uid salvar:12345> - Salve seu Uid\n</uid pesquisar:12345> - Veja o UID de algum membro\n</minifeijões diárias:12345> - Resgate seus Mini Feijões Diárias\n</minifeijões atm:12345> - Veja quantos Mini Feijões você ou algum usuário tem\n</minifeijões pagar:12345> - Envie Mini Feijões para algum usuário\n</servidores:12345> - Veja a Lista de Servidores disponíveis de Mini World\n</bot suporte:12345> - Entre no meu servidor de Suporte\n</bot help:12345> - Veja a Lista de Comandos\n</perfil ver:12345> - Veja seu perfil ou de algum outro usuário\n</perfil sobremim:12345> - Altere seu sobremim\n</perfil mapas enviar:12345> - Envie seu mapa para eu\n</perfil mapas deletar:12345> - Delete um mapa seu`,
 
-        ingles: `</uid save:12345> - Save your UID\n</uid search:12345> - View the UID of a member\n</minibeans daily:12345> - Redeem your Daily Mini Beans\n</minibeans atm:12345> - Check how many Mini Beans you or another user has\n</minibeans pay:12345> - Send Mini Beans to another user\m</servers:12345> - View the list of available Mini World servers\n</bot support:12345> - Join my support server\n</bot help:12345> - View the list of commands
+        ingles: `</uid save:12345> - Save your UID
+</uid search:12345> - View the UID of a member
+</minibeans daily:12345> - Redeem your Daily Mini Beans
+</minibeans atm:12345> - Check how many Mini Beans you or another user have
+</minibeans pay:12345> - Send Mini Beans to another user
+</servers:12345> - View the List of available Mini World servers
+</bot support:12345> - Join my Support server
+</bot help:12345> - View the List of Commands
+</profile view:12345> - View your profile or another user's
+</profile aboutme:12345> - Change your About Me
+</profile maps send:12345> - Send your map to me
+</profile maps delete:12345> - Delete one of your maps
 `
       }
 

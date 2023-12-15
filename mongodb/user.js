@@ -11,7 +11,14 @@ const data = new Schema({
 
   perfil: {
     sobremim: { type: String, default: "Não definido "},
-    emblemas: { type: Array, default: [] }
+    mapas: { type: Array, default: [] },
+    emblema: {
+      dev: { type: Boolean, default: false },
+      conhecedor: { type: Boolean, default: false },
+      yt: { type: Boolean, default: false },
+      staffBot: { type: Boolean, default: false },
+      staffServer: { type: Boolean, default: false }
+    }
   }
 });
 

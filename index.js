@@ -70,8 +70,6 @@ function handleHello(heartbeatInterval) {
       reconnect();
     }
   }, heartbeatInterval);
-
-  reconnectInterval = 1000;
 }
 
 function identify() {

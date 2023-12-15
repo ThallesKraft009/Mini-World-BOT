@@ -270,8 +270,6 @@ let mention;
       if(Date.now() < db.economia.daily_time){
       const calc = db.economia.daily_time - Date.now()
       let response = `You can only claim your daily again in ${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s ! `
-
-
         
         if (interaction.locale === "pt-BR") response = `🚫 | Você só pode pegar seu daily novamente em ${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s !`
 
