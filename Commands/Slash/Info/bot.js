@@ -49,7 +49,7 @@ module.exports = {
 </profile maps delete:12345> - Delete one of your maps
 `
       }
-
+//
       let response = language.ingles
       if (interaction.locale === "pt-BR") response = language.br
 
