@@ -6,8 +6,15 @@ const CONFIG = require("./settings/client.js");
 const token = CONFIG.token;
 const intents = CONFIG.intents;
 
+const opcodes = {
+  IDENTIFY: 2,
+  HEARTBEAT: 1,
+  RECONNECT: 7,
+  HEARTBEAT_ACK: 11,
+};
+
 const payload = {
-  op: 2,
+  op: opcodes.IDENTIFY,
   d: {
     token: token,
     intents: intents,
@@ -30,24 +37,29 @@ const payload = {
 
 const gatewayURL = 'wss://gateway.discord.gg/?v=10&encoding=json';
 let ws = null;
-let reconnectInterval = 1000;
+let heartbeatInterval;
+let reconnectInterval = 10000; // Longer initial reconnect interval
 
 function connectWebSocket() {
   ws = new WebSocket(gatewayURL);
 
   ws.onopen = () => {
     identify();
-    console.log(colors.yellow("WebSocket aberto."));
+    console.log(colors.yellow("WebSocket opened."));
   };
 
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
+    console.log(data.op)
     if (data.op === 10) {
       handleHello(data.d.heartbeat_interval);
     } else if (data.op === 11) {
       console.log('Heartbeat ACK received.');
     } else if (data.op === 0) {
       require("./events/index.js")(data);
+    } else if (data.op === opcodes.RECONNECT) {
+      console.log('Received RECONNECT opcode. Reconnecting...');
+      reconnect();
     }
   };
 
@@ -57,19 +69,22 @@ function connectWebSocket() {
   };
 
   ws.onclose = () => {
+    console.log(colors.red("WebSocket closed. Reconnecting..."));
     reconnect();
   };
+
+  
 }
 
-function handleHello(heartbeatInterval) {
-  const intervalId = setInterval(() => {
+function handleHello(interval) {
+  heartbeatInterval = setInterval(() => {
     if (ws.readyState === WebSocket.OPEN) {
       sendHeartbeat();
     } else {
-      clearInterval(intervalId);
+      clearInterval(heartbeatInterval);
       reconnect();
     }
-  }, heartbeatInterval);
+  }, interval);
 }
 
 function identify() {
@@ -77,11 +92,11 @@ function identify() {
 }
 
 function sendHeartbeat() {
-  ws.send(JSON.stringify({ op: 1, d: null }));
+  ws.send(JSON.stringify({ op: opcodes.HEARTBEAT, d: null }));
 }
 
 function reconnect() {
-  console.log(colors.red("Tentando reconectar..."));
+  clearInterval(heartbeatInterval);
   setTimeout(() => {
     connectWebSocket();
   }, reconnectInterval);
@@ -89,5 +104,10 @@ function reconnect() {
   reconnectInterval = Math.min(reconnectInterval * 2, 60000);
 }
 
-// Inicializa a conexão na inicialização do script
+// Initialize the connection on script startup
 connectWebSocket();
+/*
+process.on('uncaughtException', (error) => {
+  console.error('Erro não capturado:', error.message);
+});
+*/

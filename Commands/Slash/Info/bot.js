@@ -23,12 +23,23 @@ module.exports = {
         "pt-BR": "Veja minha lista de comandos"
       },
       type: 1
-    }]
+    }],
   },
 
   run: async function(interaction){
 
     let subCmd = interaction.data.options[0].name;
+
+   if (subCmd === "info"){
+
+      await DiscordRequest(`/applications/@me`,{
+        method: "GET"
+      }).then(async(response) => {
+        let client = await response.json();
+
+    //    console.log(client.team.members);
+      })
+    }
 
     if (subCmd === "help"){
 
