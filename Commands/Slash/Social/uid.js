@@ -1,7 +1,7 @@
 const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
 const { userdb } = require("../../../mongodb/user.js");
-
+const language = require("../../../language/commands/uid.js")
 module.exports = {
   data: {
     name: "uid",
@@ -68,17 +68,14 @@ module.exports = {
         }
 
         let data = {
-          uid_not: "Undefined.",
-          response: `The UID of <@${userId}> is (getUid)!`
+          uid_not: language[`${interaction.locale}`]["uid-search"].uid_not ? language[`${interaction.locale}`]["uid-search"].uid_not : "Undefined",
+          response: language[`${interaction.locale}`]["uid-search"].response ? language[`${interaction.locale}`]["uid-search"].response : `The UID of <@${userId}> is (uid)!`
         }
 
-        if (interaction.locale === "pt-BR") data = {
-          uid_not: "Não definido.",
-          response: `O UID de <@${userId}> é (getUid)!`
-        }
+        
 
         let uid = db.uid;
-        if (uid === "Não definido") uid = data.uid_not
+        if (uid === "Não definido" || uid === null) uid = data.uid_not
 
         await DiscordRequest(
         CALLBACK.interaction.response(
@@ -88,7 +85,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: `${data.response.replace("(getUid)", db.uid)}`
+          content: `${data.response.replace("(uid)", uid).replace("(member)", `<@${userId}>`)}`
         }
       }
         })

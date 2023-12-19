@@ -1,6 +1,6 @@
 const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
-
+const language = require("../../../language/commands/miniservers.js")
 module.exports = {
   data: {
     name: 'servers',
@@ -19,7 +19,7 @@ module.exports = {
     if (interaction.locale === "pt-BR") title = `Lista de Servidores`
 
     let embed = {
-      title: `${title}`,
+      title: `${language[interaction.locale] ? language[interaction.locale] : "Server List"}`,
       fields: [{
         name: `Mini World: CREATA`,
         value: `https://discord.gg/VXn6ZErz5a`

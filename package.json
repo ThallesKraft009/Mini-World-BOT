@@ -10,6 +10,8 @@
   "author": "ThallesKraft",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^2.2.0",
+    "@discordjs/ws": "^1.0.2",
     "@types/node": "^18.0.6",
     "better-sqlite3": "^9.2.2",
     "colors": "^1.4.0",

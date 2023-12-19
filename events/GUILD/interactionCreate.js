@@ -142,17 +142,21 @@ await DiscordRequest(
   }).then(async(x) => {
   let userData = await x.json();
 
-        let url = `https://cdn.discordapp.com/avatars/${data.d.member.user.id}/${userData.user.avatar}.png?size=2048`;
+        let url = `https://cdn.discordapp.com/avatars/${data.d.member.user.id}/${userData.user.avatar}.png`;
+//  console.log(userData, url)
 
       let embed = {
         title: "Logs de Comandos",
         description: `**Comando utilizado:** </${command.join(" ")}:12345>`,
         fields: optionsResultado,
         author: {
-          name: `${userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`}`,
-          iconURL: `${url}`
+          name: `${userData.user.global_name}`,
+          iconU_url: url
         },
-        color: 255
+        color: 255,
+        thumbnail: {
+          url: url
+        }
       }
 
     await DiscordRequest(CALLBACK.message.response("1180840099789934682"), { 
@@ -203,11 +207,11 @@ await DiscordRequest(
           i++
         })
 
-      if (!db.perfil.mapas || db.perfil.mapas.length === 0) dataI = [{
+   /*   if (!db.perfil.mapas || db.perfil.mapas.length === 0) dataI = [{
         name: "Nenhum mapa encontrado",
         value: "semMapa"
       }]
-
+*/
         //console.log(dataI)
         await DiscordRequest(
         CALLBACK.interaction.response(

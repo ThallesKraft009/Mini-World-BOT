@@ -1,7 +1,7 @@
  const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
 const { userdb } = require("../../../mongodb/user.js");
-
+const language = require("../../../language/commands/uid.js")
 module.exports = {
   customId: "uid",
   run: async function(interaction, id){
@@ -9,12 +9,6 @@ module.exports = {
     let uid = interaction.data.components[0].components[0].value;
 
   //  console.log(sobremim)
-
-    let data = {
-      response: `Your UID has been saved as ${uid}!`
-    }
-
-    if (interaction.locale === "pt-BR") data.response = `Seu uid foi salvo para ${uid}!`
 
     let db = await userdb.findOne({
          userID: interaction.member.user.id
@@ -41,7 +35,7 @@ module.exports = {
         body: {
           type: 4,
           data: {
-            content: `${data.response}`,
+            content: `${language[`${interaction.locale}`]["modal"].response ? language[`${interaction.locale}`]["modal"].response.replace("(uid)", uid) : `Your UID has been saved as ${uid}!`}`,
             flags: 64
           }
         }

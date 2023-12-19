@@ -3,7 +3,7 @@ const DiscordRequest = require("../../../settings/request.js");
 const { userdb } = require("../../../mongodb/user.js");
 const { QuickDB } = require("quick.db");
 const dbQ = new QuickDB();
-
+const language = require("../../../language/commands/profile.js")
 module.exports = {
   data: {
     name: "profile",
@@ -173,7 +173,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: response
+          content: `${language[interaction.locale]["map_delete"].response ? language[interaction.locale]["map_delete"].response : "Your map has been successfully removed!"}`
         }
       }
         })
@@ -224,7 +224,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: responseMapLimit,
+          content: `${language[interaction.locale]["map_save"].limit ? language[interaction.locale]["map_save"].limit : "You've reached the map limit!\nYou can only submit 25 maps!"}`,
           flags: 64
         }
       }
@@ -285,16 +285,11 @@ module.exports = {
         }
 
                 let data = {
-            title: "About Me Changes",
-            option_name: "Insert your new About Me below"
+            title: `${language[interaction.locale]["aboutme"].modal_title ? language[interaction.locale]["aboutme"].modal_title : "About Me Changes"}`,
+            option_name: `${language[interaction.locale]["aboutme"].modal_option ? language[interaction.locale]["aboutme"].modal_option : "Insert your new About Me below"}}`
           }
 
-          if (interaction.locale === "pt-BR") data = {
-            title: "Mudanças de Sobremim",
-            option_name: "Insira seu novo sobremim abaixo"
-          }
-
-              let modal = {
+      let modal = {
        title: `${data.title}`,
         custom_id: "sobremim",
         components: [{
@@ -307,7 +302,7 @@ module.exports = {
             value: `${db.perfil.sobremim}`
           }]
         }]
-    }
+      }
 
       await DiscordRequest(CALLBACK.interaction.response(
       interaction.id, interaction.token
@@ -371,7 +366,7 @@ module.exports = {
         mapas.map(map => {
           options.push({
             label: `${map.name}`,
-            description: "Clique por favor",
+            description: "Click to view the map",
             value: `${x}`
           })
 
@@ -406,7 +401,7 @@ module.exports = {
         let url = `https://cdn.discordapp.com/avatars/${userId}/${userData.user.avatar}.png?size=2048`;
      
 
-      let embed = {
+      /*let embed = {
         title: `Profile of ${userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`}`,
         description: `Uid: **\`${db.uid}\`**\n
 Mini Beans: **${db.economia.moedas}**
@@ -416,19 +411,21 @@ AboutMe: **\`${db.perfil.sobremim}\`**`,
           url: `${url}`
         },
         color: 65280
-      }
+      }*/
 
-         if (interaction.locale === "pt-BR") embed = {
-    title: `Perfil de ${userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`}`,
-    description: `Uid: **\`${db.uid}\`**\n
-Mini Feijões: **${db.economia.moedas}**
-Emblemas: 👤${emblemas} 
-Sobre Mim: **\`${db.perfil.sobremim}\`**`,
-    thumbnail: {
-        url: `${url}`
-    },
-           color: 65280
+         let embed = {
+           title: `${language[`${interaction.locale}`]["view"].embed_title ? language[`${interaction.locale}`]["view"].embed_title.replace("(userName)", userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`) : `Profile of ${userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`}`}`,
+           description: `${language[`${interaction.locale}`]["view"].embed_description ? language[`${interaction.locale}`]["view"].embed_description.replace("(uid)", db.uid).replace("(beans)", db.economia.moedas).replace("(badges)", emblemas).replace("(aboutme)", db.perfil.sobremim) : `Uid: **\`${db.uid}\`**\n
+Mini Beans: **${db.economia.moedas}**
+Badges: ${emblemas}
+AboutMe: **\`${db.perfil.sobremim}\`**`}`,
+           thumbnail: {
+          url: `${url}`
+        },
+        color: 65280
          }
+
+         
          
 
       data.embeds = [embed];

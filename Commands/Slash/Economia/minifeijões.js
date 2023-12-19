@@ -2,6 +2,7 @@ const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
 const {userdb} = require("../../../mongodb/user.js")
 const tempo = require("ms")
+const language = require("../../../language/commands/economia.js")
 module.exports = {
   data: {
     name: "minibeans",
@@ -126,11 +127,11 @@ module.exports = {
       let money_1 = db_1.economia.moedas
       let money_2 = db_2.economia.moedas
 
-      if (quantidade > money_1 || quantidade < 0){
+      if (quantidade > money_1 || quantidade < 0 || quantidade === 0){
 
         let responseIf = `You don't have that many Mini Beans!`
 
-        if (interaction.locale === "pt-BR") responseIf = "Você não tem tudo isso de Mini Feijões!"
+        
 
         return await DiscordRequest(
         CALLBACK.interaction.response(
@@ -140,7 +141,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: `${responseIf}`,
+          content: `${language[interaction.locale]["pay"].beans ? language[interaction.locale]["pay"].beans : responseIf}`,
           flags: 64
         }
       }
@@ -155,7 +156,7 @@ module.exports = {
 
         let response = `You sent ${quantidade} Mini Beans to <@${userId}>`
 
-        if (interaction.locale === "pt-BR") response = `Você enviou ${quantidade} Mini Feijões para <@${userId}>`
+        
 
         await DiscordRequest(
         CALLBACK.interaction.response(
@@ -165,7 +166,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: `${response}`
+          content: `${language[interaction.locale]["pay"].response ? language[interaction.locale]["pay"].response.replace("(beans)", quantidade).replace("(user)", `<@${userId}>`) : response}`
         }
       }
         })
@@ -217,16 +218,13 @@ module.exports = {
             }
 
         let data = {
-            response_author: `<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`,
-            response_mention: `<:minifeijao:1180909398223245452> | <@${userId}> has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`
+            response_author: `${language[interaction.locale]["atm"].response_author ? language[interaction.locale]["atm"].response_author.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`) .replace("(userPosition)", userPosition):`<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`}`,
+            response_mention: `${language[interaction.locale]["atm"].response_mention ? language[interaction.locale]["atm"].response_mention.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition) : `<:minifeijao:1180909398223245452> | <@${userId}> has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`}`
           };
 
         
 
-        if (interaction.locale === "pt-BR") data = {
-          response_author: `<:minifeijao:1180909398223245452> | Você tem **\`${db.economia.moedas}\`** mini feijões e está na posição **#${userPosition}** do rank!`,
-          response_mention: `<:minifeijao:1180909398223245452> | <@${userId}> tem **\`${db.economia.moedas}\`** mini feijõese está na posição **#${userPosition}** do rank!`
-        }
+        
 
 let mention;
 
@@ -271,7 +269,7 @@ let mention;
       const calc = db.economia.daily_time - Date.now()
       let response = `You can only claim your daily again in ${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s ! `
         
-        if (interaction.locale === "pt-BR") response = `🚫 | Você só pode pegar seu daily novamente em ${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s !`
+        
 
 
           return await DiscordRequest(
@@ -282,7 +280,7 @@ let mention;
       body: {
         type: 4,
         data: {
-          content: `${response}`,
+          content: `${language[interaction.locale]["daily"].time ? language[interaction.locale]["daily"].time.replace("(time)", `${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s`) : response}`,
           flags: 64
         }
       }
@@ -292,8 +290,6 @@ let mention;
       } else {
       
        let response = `Today you received <:minifeijao:1180909398223245452> ${money} mini beans!!!`
-
-      if (interaction.locale === "pt-BR") response = `Você hoje recebeu <:minifeijao:1180909398223245452> ${money} mini feijões!!!`
 
       await userdb.updateOne({
         userID: interaction.member.user.id
@@ -310,7 +306,7 @@ let mention;
       body: {
         type: 4,
         data: {
-          content: `${response}`
+          content: `${language[interaction.locale]["daily"].response ? language[interaction.locale]["daily"].response.replace("(beans)", money) : response}`
         }
       }
         })

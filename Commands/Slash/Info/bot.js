@@ -1,5 +1,6 @@
 const CALLBACK = require("../../../settings/callback.js");
 const DiscordRequest = require("../../../settings/request.js");
+const language = require("../../../language/commands/bot.js")
 
 module.exports = {
   data: {
@@ -23,6 +24,13 @@ module.exports = {
         "pt-BR": "Veja minha lista de comandos"
       },
       type: 1
+    },{
+      name: "info",
+      description: "See my current information",
+      description_localizations: {
+        "pt-BR": "Veja minhas informações atuais"
+      },
+      type: 1
     }],
   },
 
@@ -37,32 +45,58 @@ module.exports = {
       }).then(async(response) => {
         let client = await response.json();
 
-    //    console.log(client.team.members);
+     //    console.log(client);
+        /** 
+        My name is ${client.name}, and I am a bot fully inspired by the game **Mini World: CREATA**!\nI am a bot for: **Economy** and **Information** for your server. My currency is called "Mini Beans," which is one of the in-game currencies.\n\nI was developed by **ThallesKraft** and hosted on **SquareCloud**.\n\nCurrently, I am in **\`${client.approximate_guild_count}\`** servers.*/
+
+        let data = {
+  embeds: [{
+    title: `${language[interaction.locale]["info"].embed_title ? language[interaction.locale]["info"].embed_title : "My Information"}`,
+    description: `${language[interaction.locale]["info"].embed_description ? language[interaction.locale]["info"].embed_description.replace("(botName)", client.name).replace("(guilds)", client.approximate_guild_count) : `My name is ${client.name}, and I am a bot fully inspired by the game **Mini World: CREATA**!\nI am a bot for: **Economy** and **Information** for your server. My currency is called "Mini Beans," which is one of the in-game currencies.\n\nI was developed by **ThallesKraft** and hosted on **SquareCloud**.\n\nCurrently, I am in **\`${client.approximate_guild_count}\`** servers.`}`,
+    thumbnail: {
+      url: `https://cdn.discordapp.com/avatars/${client.bot.id}/${client.bot.avatar}.png?size=2048`
+    },
+    color: 255
+  }],
+  components: [{
+    type: 1,
+    components: [{
+      label: "Add",
+      style: 5,
+      url: `https://discord.com/api/oauth2/authorize?client_id=1180550435464020028&permissions=2355790605504&response_type=code&redirect_uri=https%3A%2F%2Fmini-world-bot-oauth2.thalleskraft.repl.co%2Fcallback&scope=guilds+guilds.join+bot+applications.commands+identify+guilds.members.read`,
+      type: 2
+    }, {
+      label: "GitHub",
+      style: 5,
+      url: `https://github.com/ThallesKraft009/Mini-World-BOT/tree/main`,
+      type: 2
+    }]
+  }]
+        }
+
+        await DiscordRequest(
+        CALLBACK.interaction.response(
+          interaction.id, interaction.token
+        ), { 
+      method: 'POST',
+      body: {
+        type: 4,
+        data: {
+          content: `<@${interaction.member.user.id}>`,
+          embeds: data.embeds,
+          components: data.components
+        }
+      }
+        })
+        
       })
     }
 
     if (subCmd === "help"){
 
-      let language = {
-        br: `</uid salvar:12345> - Salve seu Uid\n</uid pesquisar:12345> - Veja o UID de algum membro\n</minifeijões diárias:12345> - Resgate seus Mini Feijões Diárias\n</minifeijões atm:12345> - Veja quantos Mini Feijões você ou algum usuário tem\n</minifeijões pagar:12345> - Envie Mini Feijões para algum usuário\n</servidores:12345> - Veja a Lista de Servidores disponíveis de Mini World\n</bot suporte:12345> - Entre no meu servidor de Suporte\n</bot help:12345> - Veja a Lista de Comandos\n</perfil ver:12345> - Veja seu perfil ou de algum outro usuário\n</perfil sobremim:12345> - Altere seu sobremim\n</perfil mapas enviar:12345> - Envie seu mapa para eu\n</perfil mapas deletar:12345> - Delete um mapa seu`,
-
-        ingles: `</uid save:12345> - Save your UID
-</uid search:12345> - View the UID of a member
-</minibeans daily:12345> - Redeem your Daily Mini Beans
-</minibeans atm:12345> - Check how many Mini Beans you or another user have
-</minibeans pay:12345> - Send Mini Beans to another user
-</servers:12345> - View the List of available Mini World servers
-</bot support:12345> - Join my Support server
-</bot help:12345> - View the List of Commands
-</profile view:12345> - View your profile or another user's
-</profile aboutme:12345> - Change your About Me
-</profile maps send:12345> - Send your map to me
-</profile maps delete:12345> - Delete one of your maps
-`
-      }
+      
 //
-      let response = language.ingles
-      if (interaction.locale === "pt-BR") response = language.br
+      
 
 await DiscordRequest(
         CALLBACK.interaction.response(
@@ -74,8 +108,31 @@ await DiscordRequest(
         data: {
           content: `<@${interaction.member.user.id}>`,
           flags: 64,
-          embeds: [{
-            description: `${response}`
+          embeds: [language[interaction.locale]["help"].embed ? language[interaction.locale]["help"].embed : {
+     "title": "Command List",
+     "description": "Select the menu below to choose commands!",
+     "color": 255
+          }],
+          components: [{
+            type: 1,
+            components: [{
+              type: 3,
+              custom_id: "commands",
+              placeholder: "Commands",
+              options: [{
+                label: `${language[interaction.locale]["help"].label_info ? language[interaction.locale]["help"].label_info : "Information"}`,
+                description: `${language[interaction.locale]["help"].description ? language[interaction.locale]["help"].description : "Click to select"}`,
+                value: "0"
+              },{
+                label: `${language[interaction.locale]["help"].label_economia ? language[interaction.locale]["help"].label_economia : "Economy"}`,
+                description: `${language[interaction.locale]["help"].description ? language[interaction.locale]["help"].description : "Click to select"}`,
+                value: "1"
+              },{
+                label: `${language[interaction.locale]["help"].label_social ? language[interaction.locale]["help"].label_social : "Social"}`,
+                description: `${language[interaction.locale]["help"].description ? language[interaction.locale]["help"].description : "Click to select"}`,
+                value: "2"
+              }]
+            }]
           }]
         }
       }
