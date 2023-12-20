@@ -68,8 +68,8 @@ module.exports = {
         }
 
         let data = {
-          uid_not: language[`${interaction.locale}`]["uid-search"].uid_not ? language[`${interaction.locale}`]["uid-search"].uid_not : "Undefined",
-          response: language[`${interaction.locale}`]["uid-search"].response ? language[`${interaction.locale}`]["uid-search"].response : `The UID of <@${userId}> is (uid)!`
+          uid_not: language[`${interaction.locale}`] ? language[`${interaction.locale}`]["uid-search"].uid_not : "Undefined",
+          response: language[`${interaction.locale}`] ? language[`${interaction.locale}`]["uid-search"].response : `The UID of <@${userId}> is (uid)!`
         }
 
         

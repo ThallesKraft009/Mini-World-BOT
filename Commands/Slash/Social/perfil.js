@@ -173,7 +173,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: `${language[interaction.locale]["map_delete"].response ? language[interaction.locale]["map_delete"].response : "Your map has been successfully removed!"}`
+          content: `${language[interaction.locale] ? language[interaction.locale]["map_delete"].response : "Your map has been successfully removed!"}`
         }
       }
         })
@@ -224,7 +224,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: `${language[interaction.locale]["map_save"].limit ? language[interaction.locale]["map_save"].limit : "You've reached the map limit!\nYou can only submit 25 maps!"}`,
+          content: `${language[interaction.locale] ? language[interaction.locale]["map_save"].limit : "You've reached the map limit!\nYou can only submit 25 maps!"}`,
           flags: 64
         }
       }
@@ -285,8 +285,8 @@ module.exports = {
         }
 
                 let data = {
-            title: `${language[interaction.locale]["aboutme"].modal_title ? language[interaction.locale]["aboutme"].modal_title : "About Me Changes"}`,
-            option_name: `${language[interaction.locale]["aboutme"].modal_option ? language[interaction.locale]["aboutme"].modal_option : "Insert your new About Me below"}}`
+            title: `${language[interaction.locale] ? language[interaction.locale]["aboutme"].modal_title : "About Me Changes"}`,
+            option_name: `${language[interaction.locale] ? language[interaction.locale]["aboutme"].modal_option : "Insert your new About Me below"}}`
           }
 
       let modal = {
@@ -414,8 +414,8 @@ AboutMe: **\`${db.perfil.sobremim}\`**`,
       }*/
 
          let embed = {
-           title: `${language[`${interaction.locale}`]["view"].embed_title ? language[`${interaction.locale}`]["view"].embed_title.replace("(userName)", userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`) : `Profile of ${userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`}`}`,
-           description: `${language[`${interaction.locale}`]["view"].embed_description ? language[`${interaction.locale}`]["view"].embed_description.replace("(uid)", db.uid).replace("(beans)", db.economia.moedas).replace("(badges)", emblemas).replace("(aboutme)", db.perfil.sobremim) : `Uid: **\`${db.uid}\`**\n
+           title: `${language[`${interaction.locale}`] ? language[`${interaction.locale}`]["view"].embed_title.replace("(userName)", userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`) : `Profile of ${userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`}`}`,
+           description: `${language[`${interaction.locale}`] ? language[`${interaction.locale}`]["view"].embed_description.replace("(uid)", db.uid).replace("(minibeans)", db.economia.moedas).replace("(badges)", emblemas).replace("(aboutme)", db.perfil.sobremim) : `Uid: **\`${db.uid}\`**\n
 Mini Beans: **${db.economia.moedas}**
 Badges: ${emblemas}
 AboutMe: **\`${db.perfil.sobremim}\`**`}`,

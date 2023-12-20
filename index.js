@@ -19,6 +19,7 @@ const manager = new WebSocketManager({
 
 manager.on(WebSocketShardEvents.Dispatch, (event) => {
 	require("./events/index.js")(event.data);
+  
 });
 
 await manager.connect();

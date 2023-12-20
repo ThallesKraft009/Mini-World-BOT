@@ -51,8 +51,8 @@ module.exports = {
 
         let data = {
   embeds: [{
-    title: `${language[interaction.locale]["info"].embed_title ? language[interaction.locale]["info"].embed_title : "My Information"}`,
-    description: `${language[interaction.locale]["info"].embed_description ? language[interaction.locale]["info"].embed_description.replace("(botName)", client.name).replace("(guilds)", client.approximate_guild_count) : `My name is ${client.name}, and I am a bot fully inspired by the game **Mini World: CREATA**!\nI am a bot for: **Economy** and **Information** for your server. My currency is called "Mini Beans," which is one of the in-game currencies.\n\nI was developed by **ThallesKraft** and hosted on **SquareCloud**.\n\nCurrently, I am in **\`${client.approximate_guild_count}\`** servers.`}`,
+    title: `${language[interaction.locale] ? language[interaction.locale]["info"].embed_title : "My Information"}`,
+    description: `${language[interaction.locale] ? language[interaction.locale]["info"].embed_description.replace("(botName)", client.name).replace("(guilds)", client.approximate_guild_count) : `My name is ${client.name}, and I am a bot fully inspired by the game **Mini World: CREATA**!\nI am a bot for: **Economy** and **Information** for your server. My currency is called "Mini Beans," which is one of the in-game currencies.\n\nI was developed by **ThallesKraft** and hosted on **SquareCloud**.\n\nCurrently, I am in **\`${client.approximate_guild_count}\`** servers.`}`,
     thumbnail: {
       url: `https://cdn.discordapp.com/avatars/${client.bot.id}/${client.bot.avatar}.png?size=2048`
     },
@@ -108,7 +108,7 @@ await DiscordRequest(
         data: {
           content: `<@${interaction.member.user.id}>`,
           flags: 64,
-          embeds: [language[interaction.locale]["help"].embed ? language[interaction.locale]["help"].embed : {
+          embeds: [language[interaction.locale] ? language[interaction.locale]["help"].embed : {
      "title": "Command List",
      "description": "Select the menu below to choose commands!",
      "color": 255
@@ -120,16 +120,16 @@ await DiscordRequest(
               custom_id: "commands",
               placeholder: "Commands",
               options: [{
-                label: `${language[interaction.locale]["help"].label_info ? language[interaction.locale]["help"].label_info : "Information"}`,
-                description: `${language[interaction.locale]["help"].description ? language[interaction.locale]["help"].description : "Click to select"}`,
+                label: `${language[interaction.locale] ? language[interaction.locale]["help"].label_info : "Information"}`,
+                description: `${language[interaction.locale] ? language[interaction.locale]["help"].description : "Click to select"}`,
                 value: "0"
               },{
-                label: `${language[interaction.locale]["help"].label_economia ? language[interaction.locale]["help"].label_economia : "Economy"}`,
-                description: `${language[interaction.locale]["help"].description ? language[interaction.locale]["help"].description : "Click to select"}`,
+                label: `${language[interaction.locale] ? language[interaction.locale]["help"].label_economia : "Economy"}`,
+                description: `${language[interaction.locale] ? language[interaction.locale]["help"].description : "Click to select"}`,
                 value: "1"
               },{
-                label: `${language[interaction.locale]["help"].label_social ? language[interaction.locale]["help"].label_social : "Social"}`,
-                description: `${language[interaction.locale]["help"].description ? language[interaction.locale]["help"].description : "Click to select"}`,
+                label: `${language[interaction.locale] ? language[interaction.locale]["help"].label_social : "Social"}`,
+                description: `${language[interaction.locale] ? language[interaction.locale]["help"].description : "Click to select"}`,
                 value: "2"
               }]
             }]

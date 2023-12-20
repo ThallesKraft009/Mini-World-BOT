@@ -141,7 +141,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: `${language[interaction.locale]["pay"].beans ? language[interaction.locale]["pay"].beans : responseIf}`,
+          content: `${language[interaction.locale] ? language[interaction.locale]["pay"].beans : responseIf}`,
           flags: 64
         }
       }
@@ -166,7 +166,7 @@ module.exports = {
       body: {
         type: 4,
         data: {
-          content: `${language[interaction.locale]["pay"].response ? language[interaction.locale]["pay"].response.replace("(beans)", quantidade).replace("(user)", `<@${userId}>`) : response}`
+          content: `${language[interaction.locale] ? language[interaction.locale]["pay"].response.replace("(beans)", quantidade).replace("(user)", `<@${userId}>`) : response}`
         }
       }
         })
@@ -218,8 +218,8 @@ module.exports = {
             }
 
         let data = {
-            response_author: `${language[interaction.locale]["atm"].response_author ? language[interaction.locale]["atm"].response_author.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`) .replace("(userPosition)", userPosition):`<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`}`,
-            response_mention: `${language[interaction.locale]["atm"].response_mention ? language[interaction.locale]["atm"].response_mention.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition) : `<:minifeijao:1180909398223245452> | <@${userId}> has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`}`
+            response_author: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_author.replace("(minibeans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition):`<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`}`,
+            response_mention: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_mention.replace("(minibeans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition) : `<:minifeijao:1180909398223245452> | <@${userId}> has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`}`
           };
 
         
@@ -280,7 +280,7 @@ let mention;
       body: {
         type: 4,
         data: {
-          content: `${language[interaction.locale]["daily"].time ? language[interaction.locale]["daily"].time.replace("(time)", `${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s`) : response}`,
+          content: `${language[interaction.locale] ? language[interaction.locale]["daily"].time.replace("(time)", `${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s`) : response}`,
           flags: 64
         }
       }
@@ -306,7 +306,7 @@ let mention;
       body: {
         type: 4,
         data: {
-          content: `${language[interaction.locale]["daily"].response ? language[interaction.locale]["daily"].response.replace("(beans)", money) : response}`
+          content: `${language[interaction.locale] ? language[interaction.locale]["daily"].response.replace("(beans)", money) : response}`
         }
       }
         })
