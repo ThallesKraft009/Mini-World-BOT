@@ -67,12 +67,113 @@ module.exports = {
         type: 10,
         required: true
       }]
+    },{
+      name: "rank",
+      description: "Check the current rank",
+      description_localizations: {
+        "pt-BR": "Veja o rank atual"
+      },
+      type: 1
+    },{
+      name: "work",
+      name_localizations: {
+        "pt-BR": "trabalhar"
+      },
+      description: "Do projects and earn Mini Beans",
+      description_localizations: {
+        "pt-BR": "Crie projetos e ganhe Mini Feijões"
+      },
+      type: 1
     }]
   },
   run: async function(interaction) {
 
     let subCmd = interaction.data.options[0].name;
 
+    if (subCmd === "work"){
+
+      let db = await userdb.findOne({ userID: interaction.member.user.id })
+
+      if (!db){
+        let newuser = new userdb({ userID: interaction.member.user.id })
+
+        await newuser.save();
+
+        db = await userdb.findOne({ userID: interaction.member.user.id })
+      }
+
+      let Array = language[interaction.locale] ? language[interaction.locale].work.msg : ["You created a map and earned Mini Beans!",
+ "You made a Mini World video on Youtube and gained Mini Beans!",
+ "You created a thumbnail and earned Mini Beans!",
+ "You collaborated on a map with some players and earned Mini Beans!",
+ "You earned Mini Beans at your map's store!"];
+
+      
+   Array = textoAleatorio(Array);
+
+      let quantia = getRandomNumberBetween(100, 500)
+
+            if(Date.now() < db.economia.work_time){
+      const calc = db.economia.work_time - Date.now()
+      let response = `You can only work again in: ${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s ! `
+
+
+          return await DiscordRequest(
+        CALLBACK.interaction.response(
+          interaction.id, interaction.token
+        ), { 
+      method: 'POST',
+      body: {
+        type: 4,
+        data: {
+          content: `${language[interaction.locale] ? language[interaction.locale]["work"].time.replace("(time)", `${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s`) : response}`,
+          flags: 64
+        }
+      }
+        })
+
+            } else {
+
+
+db.economia.work_time = Date.now() + tempo("1h");
+db.economia.moedas += quantia;
+
+              await db.save();
+      await DiscordRequest(CALLBACK.interaction.response(interaction.id, interaction.token),{
+        method: "POST",
+        body: {
+          type: 4,
+          data: {
+            content: `${Array.replace("(beans)", quantia)}`
+          }
+        }
+      })
+
+            }
+    }
+    if (subCmd === "rank"){
+      let db = await userdb.find({})
+
+  db.sort((a,b) => (b.economia.moedas + b.economia.moedas) - (a.economia.moedas + a.economia.moedas))
+
+      db = db.slice(0, 10);
+
+      let embed = {
+        title: `${language[interaction.locale] ? language[interaction.locale].rank.title : "Mini Beans Rank"}`,
+        description: `${db.map((user, i) => `#${i+1} | **${`<@${user.userID}>` || `sumido#0000`}** (${user.economia.moedas})`).join("\n ")}`,
+        color: 16776960
+      };
+
+      await DiscordRequest(CALLBACK.interaction.response(interaction.id, interaction.token),{
+        method: "POST",
+        body: {
+          type: 4,
+          data: {
+            embeds: [embed]
+          }
+        }
+      })
+    }
     if (subCmd === "pay"){
 
       let userId = interaction.data.options[0].options[0].value;
@@ -332,4 +433,9 @@ function getRandomNumberBetween(x, y) {
   const days = ~~(hours/24)
 
   return { days, hours: hours%24, minutes: minutes%60, seconds: seconds%60 }
+}
+
+function textoAleatorio(array) {
+  const indiceAleatorio = Math.floor(Math.random() * array.length);
+  return array[indiceAleatorio];
 }

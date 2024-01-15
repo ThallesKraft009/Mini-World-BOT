@@ -28,3 +28,7 @@ await manager.connect();
 
 
 MiniWorldBOT_connect()
+
+process.on('uncaughtException', (err) => {
+  console.error('Erro não capturado:', err);
+});

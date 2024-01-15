@@ -63,7 +63,7 @@ module.exports = {
     components: [{
       label: "Add",
       style: 5,
-      url: `https://discord.com/api/oauth2/authorize?client_id=1180550435464020028&permissions=2355790605504&response_type=code&redirect_uri=https%3A%2F%2Fmini-world-bot-oauth2.thalleskraft.repl.co%2Fcallback&scope=guilds+guilds.join+bot+applications.commands+identify+guilds.members.read`,
+      url: `https://discord.com/api/oauth2/authorize?client_id=1180550435464020028&permissions=2339214585024&scope=bot+applications.commands`,
       type: 2
     }, {
       label: "GitHub",

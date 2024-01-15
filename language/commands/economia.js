@@ -11,6 +11,13 @@ module.exports = {
     "pay": {
       "beans": "Você não tem tudo isso de Mini Feijões!",
       "response": `Você enviou (beans) Mini Feijões para (user)`
+    },
+    "rank": {
+      "title": "Rank de MiniFeijões"
+    },
+    "work": {
+      "msg": ["Você criou um mapa e arrecadou (beans) MiniFeijões!", "Você fez um vídeo de Mini World no Youtube e ganhou (beans) Mini Feijões!", "Você fez uma miniatura e ganhou (beans) Mini Feijões!", "Você fez um mapa em equipe com alguns jogadores e ganhou (beans) Mini Feijões!", "Você ganhou (beans) Mini Feijões na loja do seu mapa!"],
+      "time": `🚫 | Você só pode trabalhar novamente em (time) !`
     }
   }
 }

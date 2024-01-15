@@ -349,8 +349,11 @@ module.exports = {
 
       await dbQ.set("mapUserId_" + interaction.member.user.id, `${userId}`);
      // console.log(db)
+      
 
       let emblemas = `${db.perfil.emblema.conhecedor ? "🔍" : ""}${db.perfil.emblema.dev ? "🛠️" : ""}${db.perfil.emblema.yt ? "🎥" : ""}`;
+
+      if (userId === "890320875142930462") emblemas += "👑"
 
       let mapas = db.perfil.mapas;
       let ver = true
@@ -414,7 +417,7 @@ AboutMe: **\`${db.perfil.sobremim}\`**`,
       }*/
 
          let embed = {
-           title: `${language[`${interaction.locale}`] ? language[`${interaction.locale}`]["view"].embed_title.replace("(userName)", userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`) : `Profile of ${userData.user.bot ? `${userData.user.username}` : `${userData.user.global_name}`}`}`,
+           title: `${language[`${interaction.locale}`] ? language[`${interaction.locale}`]["view"].embed_title.replace("(userName)", userData.user.bot ? `${userData.user.username}` : `${userData.user.user.username}`) : `Profile of ${userData.user.bot ? `${userData.user.username}` : `${userData.user.user.username}`}`}`,
            description: `${language[`${interaction.locale}`] ? language[`${interaction.locale}`]["view"].embed_description.replace("(uid)", db.uid).replace("(minibeans)", db.economia.moedas).replace("(badges)", emblemas).replace("(aboutme)", db.perfil.sobremim) : `Uid: **\`${db.uid}\`**\n
 Mini Beans: **${db.economia.moedas}**
 Badges: ${emblemas}

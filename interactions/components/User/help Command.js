@@ -48,6 +48,12 @@ module.exports = {
         },{
           name: "</minibeans pay:12345>",
           value: "`Send Mini Beans to another user!`"
+        },{
+          name: "</minibeans work:12345>",
+          value: "`Do projects and earn Mini Beans`"
+        },{
+          name: "</minibeans rank:12345>",
+          value: "``"
         }],
         color: 65280
       };
