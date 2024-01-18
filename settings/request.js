@@ -1,5 +1,6 @@
 const { token } = require("./client.js");
 const c = require("colors");
+const CALLBACK = require("./callback.js");
 
 module.exports = async function (endpoint, options) {
   const url = 'https://discord.com/api/v10/' + endpoint;
@@ -23,3 +24,4 @@ module.exports = async function (endpoint, options) {
 
   return res;
     }
+

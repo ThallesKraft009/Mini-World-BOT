@@ -3,6 +3,9 @@ const { Schema, model } = require('mongoose');
 const data = new Schema({
   userID: { type: String },
   uid: { type: String, default: "Não definido" },
+  premium: { type: Number, default: 0 },
+  blacklist: { type: Boolean, default: false },
+  blacklist_reason: { type: String, default: "Undefined."},
   
   economia: {
     moedas: { type: Number, default: 0 },

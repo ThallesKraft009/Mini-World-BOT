@@ -55,123 +55,39 @@ const Interaction = async (data, commands) => {
 let cmd = commands[data.d.data.name];
 let command = []
 let options = []
-
-try {
-    cmd.run(data.d);
-} catch (err) {
-    console.log(err);
-}
-
-    command.push(data.d.data.name)
-
-if(data.d.data.options[0]) {
-
-  if (data.d.data.options[0].type === 1 || data.d.data.options[0].type === 2){
- command.push(data.d.data.options[0].name);
-  
-
-  if (data.d.data.options[0].options[0]){
-
-    if (data.d.data.options[0].options[0] === 1){
-    command.push(data.d.data.options[0].options[0].name)
-
-      if (data.d.data.options[0].options[0].options){
-    data.d.data.options[0].options[0].options.map(x => {
-
-      options.push({
-        name: x.name,
-        value: x.value,
-        type: x.type
-      })
-    
-    })
-      }
-      
-    }
-
-    
-  }
-    
-  }
-
-  //console.log(data.d.data.options[0].options)
-  if (data.d.data.options[0].options){
-    data.d.data.options[0].options.map(x => {
-
-      options.push({
-        name: x.name,
-        value: x.value,
-        type: x.type
-      })
-    
-    })
-  }
-}
-
-      
-
-    //  console.log(command, options)
-
-      let optionsResultado = [{
-        name: "Lista de Opções",
-        value: "Todas as opções do comando disponível."
-      }]
-      options.map(o => {
-        let type = {
-          "3": "Texto",
-          "6": "Usuário",
-          "10": "Número",
-          "11": "Imagem"
-        };
-
-   //     console.log(o.type)
-        
-        optionsResultado.push({
-          name: `Opcão de ${type[`${o.type}`]}`,
-          value: `Nome da opção: \`${o.name}\`\nValor da opção: \`${o.value}\``
-        })
-      })
-
-
-await DiscordRequest(
-  CALLBACK.guild.userGet(
-    data.d.guild_id, 
-    data.d.member.user.id
-    ), {
-      method: "GET"
-  }).then(async(x) => {
-  let userData = await x.json();
-
-        let url = `https://cdn.discordapp.com/avatars/${data.d.member.user.id}/${userData.user.avatar}.png`;
-//  console.log(userData, url)
-
-      let embed = {
-        title: "Logs de Comandos",
-        description: `**Comando utilizado:** </${command.join(" ")}:12345>`,
-        fields: optionsResultado,
-        author: {
-          name: `${userData.user.global_name}`,
-          iconU_url: url
-        },
-        color: 255,
-        thumbnail: {
-          url: url
-        }
-      }
-
-    await DiscordRequest(CALLBACK.message.response("1180840099789934682"), { 
-      method: 'POST',
-      body: {
-        embeds: [embed],
-        content: "ID do usuário: " + data.d.member.user.id
-      }
+let db = await userdb.findOne({
+      userID: data.d.member.user.id
     });
 
-})
+    if (!db){
+      let newUser = new userdb({
+      userID: data.d.member.user.id
+    });
+      await newUser.save();
 
-      
-      
-    } else if (data.d.type === 4){
+      db = await userdb.findOne({
+      userID: data.d.member.user.id
+    });
+    }
+
+      if (db.blacklist){
+
+        return await DiscordRequest(CALLBACK.interaction.response(
+          data.d.id, data.d.token
+        ),{
+          method: "POST",
+          body: {
+            type: 4,
+            data: {
+              content: `You are on the Blacklist!\nReason: \`${db.blacklist_reason}\``,
+              flags: 64
+            }
+          }
+        })
+      } else {
+    cmd.run(data.d);
+    }
+  } else if (data.d.type === 4){
 
  // console.log(data.d)
 

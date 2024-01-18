@@ -319,8 +319,8 @@ db.economia.moedas += quantia;
             }
 
         let data = {
-            response_author: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_author.replace("(minibeans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition):`<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`}`,
-            response_mention: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_mention.replace("(minibeans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition) : `<:minifeijao:1180909398223245452> | <@${userId}> has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`}`
+            response_author: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_author.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition):`<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`}`,
+            response_mention: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_mention.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition) : `<:minifeijao:1180909398223245452> | <@${userId}> has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`}`
           };
 
         
