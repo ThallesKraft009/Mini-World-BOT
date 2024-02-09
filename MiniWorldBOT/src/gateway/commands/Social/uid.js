@@ -8,21 +8,25 @@ module.exports = {
     options: [{
       name: "save",
       name_localizations: {
-        "pt-BR": "salvar"
+        "pt-BR": "salvar",
+        "es-ES": "guardar"
       },
       description: "Save your Mini World UID!",
       description_localizations: {
-        "pt-BR": "Salve seu UID do Mini World!"
+        "pt-BR": "Salve seu UID do Mini World!",
+        "es-ES": "¡Guarda tu UID de Mini World!"
       },
       type: 1
     },{
       name: "search",
       name_localizations: {
-        "pt-BR": "pesquisar"
+        "pt-BR": "pesquisar",
+        'es-ES': "buscar"
       },
       description: "Search for the UID of a user",
       description_localizations: {
-        "pt-BR": "Veja o UID de algum usuário"
+        "pt-BR": "Veja o UID de algum usuário",
+        "es-ES": "Busca la UID de un usuario"
       },
       type: 1,
       options: [{
@@ -66,7 +70,7 @@ module.exports = {
         let uid = db.uid;
         if (uid === "Não definido" || uid === null) uid = data.uid_not
 
-      console.log(db)
+    
 
         await interaction.reply({
           content: `${data.response.replace("(uid)", uid).replace("(member)", `<@${userId}>`)}`
@@ -78,15 +82,15 @@ module.exports = {
     }
 
     if (subCmd === "save"){
-    let data = {
-      title: "UID Management",
-      option: "Enter your UID below"
-    };
 
-    if (interaction.locale === "pt-BR") data = {
-      title: "Salvamento de Uid",
-      option: "Insira seu UID abaixo"
-    }
+      let data = {
+        title: language[interaction.locale] ? language[interaction.locale].uid_save.title : "Uid Management",
+
+        option: language[interaction.locale] ? language[interaction.locale].uid_save.option : "Enter your UID below"
+      }
+    
+
+    
 
     let modal = {
        title: `${data.title}`,

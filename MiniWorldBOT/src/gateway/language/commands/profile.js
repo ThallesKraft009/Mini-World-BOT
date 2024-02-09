@@ -27,9 +27,24 @@ module.exports = {
 
       "sobremim": "Editar Sobremim"
     },
+  },
+  "es-ES": {
 
     "ver": {
-      sobremim: "Sobremim:"
-    }
+      sobremim: "Sobré mi:"
+    },
+
+    "edit": {
+
+      "banners": {
+        "description": "Toca para seleccionar",
+        "response": "¡Fondo equipado!",
+        "if": "¡Este fondo ya esta equipado!",
+        "title": "Fondo",
+        "click": "Equipar"
+      },
+
+      "sobremim": "Editar sobre mí"
+    },
   }
 }

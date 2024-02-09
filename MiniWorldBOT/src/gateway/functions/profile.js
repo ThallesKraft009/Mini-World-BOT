@@ -8,7 +8,7 @@ registerFont('MiniWorldBOT/src/fonts/oswald.ttf', {
 const { AttachmentBuilder } = require("discord.js");
 
 
-async function ProfileImage(userAvatar, uid, userName, minibeans, sobremim_, sobremimIdioma, interaction, banner){
+async function ProfileImage(userAvatar, uid, userName, minibeans, sobremim_, sobremimIdioma, interaction, banner, isAuthor){
 let data = {
   userAvatar: userAvatar.replace("webp", "png"),
   uid: uid,

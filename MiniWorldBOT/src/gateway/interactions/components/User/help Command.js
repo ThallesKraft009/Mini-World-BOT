@@ -9,7 +9,7 @@ module.exports = {
     let value = interaction.data.values[0];
 
     if (value === "0"){
-      let embed = language[interaction.locale]["help"]["embed_0"] ? language[interaction.locale]["help"]["embed_0"] : {
+      let embed = language[interaction.locale] ? language[interaction.locale]["help"]["embed_0"] : {
         title: "Information Commands",
         fields: [{
           name: "</bot help:12345>",
@@ -37,7 +37,7 @@ module.exports = {
          }
       })
     } else if (value === "1"){
-      let embed = language[interaction.locale]["help"]["embed_1"] ? language[interaction.locale]["help"]["embed_1"] : {
+      let embed = language[interaction.locale] ? language[interaction.locale]["help"]["embed_1"] : {
         title: "Economy Commands",
         fields: [{
           name: "</minibeans daily:12345>",
@@ -71,7 +71,7 @@ module.exports = {
          }
       })
     } else if (value === "2"){
-      let embed = language[interaction.locale]["help"]["embed_2"] ? language[interaction.locale]["help"]["embed_2"] : {
+      let embed = language[interaction.locale] ? language[interaction.locale]["help"]["embed_2"] : {
         title: "Social Commands",
         fields: [{
           name: "</profile view:12345>",
@@ -80,12 +80,7 @@ module.exports = {
           name: "</profile about-me:12345>",
           value: "`Change your About Me`"
         },{
-          name: "</profile maps send:12345>",
-          value: "`Submit your maps to appear on your profile`"
-        },{
-          name: "</profile maps delete:12345>",
-          value: "`Delete the maps that appear on your profile`"
-        },{
+          
           name: "</uid save:12345>",
           value: "`Save your UID on Discord`"
         },{

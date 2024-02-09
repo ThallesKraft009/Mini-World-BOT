@@ -31,6 +31,7 @@ module.exports = (client) => {
       });
 
       if (slashCommand.name) {
+     //   console.log(slashCommand.name, "\n", slashCommand)
         client.commands.set(slashCommand.name, slashCommand)
       }
     }
@@ -38,9 +39,11 @@ module.exports = (client) => {
 
   (async () => {
     try {
-      //await rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] }).then(() => console.log(chalk.blue('Carregando slashCommands....')));
+   //  await rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] }).then(() => console.log(chalk.blue('Carregando slashCommands....')));
 
    //   procces.exit()
+
+    //  slashCommands.map(x => console.log(x.name))
 
       await rest.put(
         Routes.applicationCommands(CLIENT_ID),

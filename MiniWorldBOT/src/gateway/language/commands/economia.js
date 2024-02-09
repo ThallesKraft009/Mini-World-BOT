@@ -27,5 +27,38 @@ module.exports = {
 
       "banner_tem": "Você já tem esse item comprado!"
     }
+  },
+
+  "es-ES": {
+    "daily": {
+      "response": "¡Recibiste (beans) mini frijoles!",
+      "time": `🚫 | Puedes reclamar tus mini frijoles diarios en (time)`
+    },
+
+    "atm": {
+      "response_author": `<:minifeijao:1180909398223245452> | ¡Tienes (beans) mini frijoles, tu posición en la tabla de puntuación es #(userPosition)`,
+      "response_mention": `<:minifeijao:1180909398223245452> | (user) Tiene (beans) mini frijoles y su posición en la tabla de puntuación es #(userPosition)!`
+    },
+    "work": {
+      "msg": ["¡Creaste un mapa y conseguiste Mini Frijoles!", "¡Publicaste un video de Mini World y ganaste Mini Frijoles!", "¡Creaste una miniatura y recibiste Mini Frijoles!", "¡Colaboraste con otro jugador para crear un mapa y conseguiste Mini Frijoles!", "¡Conseguiste Mini Frijoles en la tienda de tu mapa!"],
+      "time": `🚫 | Puedes volver a trabajar en (time)`
+    },
+
+    "pay": {
+      "beans": "¡No tienes suficientes Mini Frijoles!",
+      "response": "Pagaste (beans) Mini Frijoles a (user)"
+    },
+
+    "shop": {
+      "banner": "Fondo para tu perfil",
+
+      "banner_buy": "¡Compraste un fondo de perfil!\nUtiliza el comando </perfil:12345> para equipar tu fondo de perfil",
+
+      "banner_tem": "¡Ya tienes este objeto!"
+    },
+
+    "rank": {
+      "title": "Rango en Mini Frijoles"
+    },
   }
 }

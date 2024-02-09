@@ -6,17 +6,19 @@ const { collector } = require("../../functions/collector.js");
 
 module.exports = {
   name: "profile",
-  name_localizations: { "pt-BR": "perfil" },
+  name_localizations: { "pt-BR": "perfil", "es-ES": "perfil" },
   description: "Grupo de Comandos",
   type: 1,
   options: [{
     name: "view",
     name_localizations: {
       "pt-BR": "ver",
+      "es-ES": "ver"
     },
     description: "View your profile or that of another member",
     description_localizations: {
-      "pt-BR": "Veja seu perfil ou de algum outro membro"
+      "pt-BR": "Veja seu perfil ou de algum outro membro",
+      "es-ES": "Muestra tu perfil o el perfil de otro usuario"
     },
     type: 1,
     options: [{
@@ -28,11 +30,13 @@ module.exports = {
   },{
     name: "edit",
     name_localizations: {
-      "pt-BR": "editar"
+      "pt-BR": "editar",
+      "es-ES": "editar"
     },
     description: "Edit your Profile",
     description_localizations: {
-      'pt-BR': "Edite o seu perfil"
+      'pt-BR': "Edite o seu perfil",
+      "es-ES": "Edita tu perfil"
     },
     type: 1
   }],

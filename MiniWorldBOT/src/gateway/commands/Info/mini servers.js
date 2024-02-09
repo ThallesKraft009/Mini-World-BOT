@@ -4,11 +4,13 @@ const language = require("../../language/commands/miniservers.js")
 module.exports = {
     name: 'servers',
     name_localizations: {
-      "pt-BR": "servidores"
+      "pt-BR": "servidores",
+      "es-ES": "servidores"
     },
     description: 'Check out the available Mini World servers on Discord',
     description_localizations: {
-      "pt-BR": "Veja os servidores disponíveis de Mini World no Discord"
+      "pt-BR": "Veja os servidores disponíveis de Mini World no Discord",
+      "es-ES": "Mira los servidores de Discord disponibles de  Mini World"
     },
     type: 1,
   run: async function (client, interaction) {

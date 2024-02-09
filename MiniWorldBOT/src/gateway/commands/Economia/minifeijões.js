@@ -9,92 +9,120 @@ module.exports = {
   
     name: "minibeans",
     name_localizations: {
-      "pt-BR": "minifeijões"
+      "pt-BR": "minifeijões",
+      "es-ES": "minifrijoles"
     },
     description: "Comandos relacionados a Economia",
     type: 1,
     options: [{
       name: "daily",
       name_localizations: {
-        "pt-BR": "diárias"
+        "pt-BR": "diárias",
+        "es-ES": "diarios"
       },
       description: "Redeem your Daily Mini Beans!",
       description_localizations: {
-        "pt-BR": "Resgate seus Mini Feijões diários!"
+        "pt-BR": "Resgate seus Mini Feijões diários!",
+        "es-ES": "Reclama tus Mini Frijoles diarios"
       },
       type: 1
     },{
       name: "atm",
+      name_localizations: {
+        "es-ES": 'balance'
+      },
       description: "Check how many Mini Beans a member has!",
       description_localizations: {
-        "pt-BR": "Veja quantos Minifeijoes algum membro tem!"
+        "pt-BR": "Veja quantos Minifeijoes algum membro tem!",
+        "es-ES": "Muestra cuantos mini frijoles tienes"
       },
       type: 1,
       options: [{
         name: "member",
         name_localizations: {
-          "pt-BR": "membro"
+          "pt-BR": "membro",
+          "es-ES": "usuario"
         },
         description: "Mention a member to check his Mini Beans!",
+        description_localizations: {
+          "es-ES": "Menciona a un usuario o utiliza su ID"
+        },
         type: 6,
         required: false
       }]
     },{
       name: "pay",
       name_localizations: {
-        "pt-BR": "pagar"
+        "pt-BR": "pagar",
+        "es-ES": "pagar"
       },
       description: "Send mini beans to a member!",
       description_localizations: {
-        "pt-BR": "Envie mini feijões para um membro!"
+        "pt-BR": "Envie mini feijões para um membro!",
+        "es-ES": "Págale Mini Frijoles a un usuario"
       },
       type: 1,
       options: [{
         name: "member",
         name_localizations: {
-          "pt-BR": "membro"
+          "pt-BR": "membro",
+          "es-ES": "usuario"
         },
         description: "Mention a member",
+        description_localizations: {
+          "es-ES": "Menciona a un usuario o utiliza su ID"
+        },
         type: 6,
         required: true
       },{
         name: "quantity",
         name_localizations: {
-          "pt-BR": "quantidade"
+          "pt-BR": "quantidade",
+          "es-ES": "cantidad"
         },
         description: "Enter how many mini beans you want to send",
         description_localizations: {
-          "pt-BR": "Insira quantos mini feijões você quer enviar"
+          "pt-BR": "Insira quantos mini feijões você quer enviar",
+          "es-ES": "Coloca la cantidad de Mini Frijoles que quieres pagar"
         },
         type: 10,
         required: true
       }]
     },{
       name: "rank",
+      name_localizations: {
+        "es-ES": "rango"
+      },
       description: "Check the current rank",
       description_localizations: {
-        "pt-BR": "Veja o rank atual"
+        "pt-BR": "Veja o rank atual",
+        "es-ES": "Muestra tu rango actual"
       },
       type: 1
-    },{
+    },{ 
       name: "work",
       name_localizations: {
-        "pt-BR": "trabalhar"
+        "pt-BR": "trabalhar",
+        "es-ES": "trabajo"
       },
       description: "Do projects and earn Mini Beans",
       description_localizations: {
-        "pt-BR": "Crie projetos e ganhe Mini Feijões"
+        "pt-BR": "Crie projetos e ganhe Mini Feijões",
+        "es-ES": "Trabaja para conseguir mini frijoles"
       },
       type: 1
     },{
       name: "shop",
+      
       description: "See the daily store",
       type: 1,
       name_localizations: {
-        'pt-BR': "loja"
+        'pt-BR': "loja",
+        "es-ES": "tienda"
       },
       description_localizations: {
-        "pt-BR": "Veja a loja diária"
+        "pt-BR": "Veja a loja diária",
+        "es-ES": "Mira la tienda diaria"
       }
     }],
   run: async function(client, interaction) {
@@ -411,9 +439,12 @@ db.economia.moedas += quantia;
 
           await newUser.save();
 
-          
+          db = await userdb.findOne({
+          userID: userId
+        })
         }
 
+        
 
         const rankedUsers = await userdb.find({
               "economia.moedas": { 
@@ -424,7 +455,7 @@ db.economia.moedas += quantia;
                   "economia.moedas": -1 
                 })
                 .exec();
-    
+    //console.log(db.userID)
             let userPosition = rankedUsers.findIndex(user => user.userID === db.userID) + 1;
 
             if (db.economia.moedas === 0) {
@@ -432,8 +463,8 @@ db.economia.moedas += quantia;
             }
 
         let data = {
-            response_author: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_author.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition):`<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`}`,
-            response_mention: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_mention.replace("(beans)", db.economia.moedas).replace("(user)", `<@${userId}>`).replace("(userPosition)", userPosition) : `<:minifeijao:1180909398223245452> | <@${userId}> has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`}`
+            response_author: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_author.replace("(beans)", db.economia.moedas).replace("(user)", `${userId}`).replace("(userPosition)", userPosition):`<:minifeijao:1180909398223245452> | You have **\`${db.economia.moedas}\`** mini beans and are in position **#${userPosition}** on the leaderboard!`}`,
+            response_mention: `${language[interaction.locale] ? language[interaction.locale]["atm"].response_mention.replace("(beans)", db.economia.moedas).replace("(user)", `${userId}`).replace("(userPosition)", userPosition) : `<:minifeijao:1180909398223245452> | ${userId} has **\`${db.economia.moedas}\`** mini beans and is in position **#${userPosition}** on the leaderboard!`}`
           };
 
         
