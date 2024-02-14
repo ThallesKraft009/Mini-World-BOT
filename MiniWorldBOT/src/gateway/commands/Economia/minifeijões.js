@@ -250,14 +250,16 @@ module.exports = {
         db = await userdb.findOne({ userID: interaction.user.id })
       }
 
-            
+            //console.log(1)
 
-            if (db.economia.moedas >= item.value){
+        if (db.economia.moedas >= item.value){
 
               if (item.type === "banner"){
 
-
+//console.log(2)
                 if (db.perfil.banners.some(img => img.data === item.data)){
+
+//console.log(4)
                   return message.reply({
                     content: `${language[interaction.locale] ? language[interaction.locale].shop.banner_tem : "You already have this item!"}`,
                     ephemeral: true
@@ -267,6 +269,7 @@ module.exports = {
 
                 db.perfil.banners.push(item);
 
+            //  console.log(3)
                   await message.reply({
                     content: `${language[interaction.locale] ? language[interaction.locale].shop.banner_buy : "You purchased the Profile Background Image! Use </profile edit:12345> to equip the profile image!"}`,
                     ephemeral: true
@@ -276,6 +279,13 @@ module.exports = {
 
                 }
               }
+            } else {
+
+               await message.reply({
+                  content: `You don't have Mini beans`,
+                  ephemeral: true
+               })
+          
             }
           }
         }

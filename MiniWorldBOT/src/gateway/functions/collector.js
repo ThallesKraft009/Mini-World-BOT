@@ -6,6 +6,10 @@ async function collector(func) {
       func(i);
     } catch (e) {
       console.log(e);
+
+       i.reply({
+        content: `Ocorreu um erro ao executar a interação....\`\`\`\n${e}\n\`\`\``
+      })
     }
   });
 }

@@ -1,4 +1,5 @@
 MAIN=index.js
-MEMORY=300
+MEMORY=400
 VERSION=recommended
 DISPLAY_NAME=Mini World BOT
+AUTORESTART=true
