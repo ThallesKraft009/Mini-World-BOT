@@ -27,6 +27,10 @@ module.exports = {
 
       "sobremim": "Editar Sobremim"
     },
+
+    "ver": {
+      sobremim: "SobreMim:"
+    }
   },
   "es-ES": {
 
