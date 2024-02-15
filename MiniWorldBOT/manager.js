@@ -7,8 +7,8 @@ module.exports = class MiniWorldBOT {
   constructor(){
 
 this.manager = new ClusterManager(`${__dirname}/src/gateway/MiniWorldBOT.js`, {
-    totalShards: 3,
-    shardsPerClusters: 3,
+    totalShards: 1,
+    shardsPerClusters: 1,
     totalClusters: 1,
     mode: 'process',
     token: secret.token,
