@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-console.log(Array)
+//console.log(Array)
 const data = new Schema({
   userID: { type: String },
   uid: { type: String, default: "Não definido" },

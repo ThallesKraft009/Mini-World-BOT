@@ -1,4 +1,5 @@
 module.exports = [
-  "CrisVelha",
-  "noName2"
+  "CrisVelha", //Cluster [0]
+  "MundoDosCoelhinhos", //Cluster [1]
+  "FolhaAmarela" //Cluster[2]
 ]
