@@ -60,7 +60,7 @@ module.exports = {
       let cluster = clusters[client.cluster.id];
       let shard = interaction.guild.shardId;
 
-      await interaction.reply({
+      await interaction.editReply({
         content: `🏓 Pong! (Cluster [${client.cluster.id}] - \`${cluster}\`) (Shard ${getInfo().TOTAL_SHARDS}/${shard})\n⏰ Gateway Ping: **\`${client.ws.ping}ms\`**\n⌛ Api Ping: **\`${apiping}ms\`**`
       })
     }
@@ -98,8 +98,8 @@ module.exports = {
   }]
         }
 
-        await interaction.reply({
-          content: `<@${interaction.user}>`,
+        await interaction.editReply({
+          content: `${interaction.user}`,
           embeds: data.embeds,
           components: data.components
         })
@@ -115,7 +115,7 @@ module.exports = {
 //
       
 
-await interaction.reply({
+await interaction.editReply({
           content: `<@${interaction.member.user.id}>`,
           flags: 64,
           embeds: [language[interaction.locale] ? language[interaction.locale]["help"].embed : {

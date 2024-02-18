@@ -30,7 +30,14 @@ module.exports = {
 
     "ver": {
       sobremim: "SobreMim:"
-    }
+    },
+
+    "mapas": {
+         "nenhum": "Você não tem nenhum mapa, quer adicionar agora mesmo?",
+         "botao": "Enviar Mapa",
+         "text": "Selecione o mapa abaixo pra editar!",
+         "select": "Lista de Mapas"
+       } 
   },
   "es-ES": {
 
@@ -48,7 +55,9 @@ module.exports = {
         "click": "Equipar"
       },
 
-      "sobremim": "Editar sobre mí"
-    },
+      "sobremim": "Editar sobre mí",
+      }
+
+       
   }
 }

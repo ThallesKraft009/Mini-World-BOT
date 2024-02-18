@@ -39,11 +39,98 @@ module.exports = {
       "es-ES": "Edita tu perfil"
     },
     type: 1
+ /* },{
+    name: "maps",
+    name_localizations: {
+      "pt-BR": "mapas"
+    },
+
+    description: "Edit the display of your maps",
+    description_localizations: {
+      "pt-BR": "Edite a exibição de seus mapas"
+    },
+    type: 1*/
   }],
 
   run: async(client, interaction) => {
     let cmd = interaction.options.getSubcommand();
 
+    if (cmd === "maps"){
+      let user = interaction.user;
+      
+      let db = await userdb.findOne({
+          userID: user.id
+        })
+
+        if (!db) {
+          let newUser = new userdb({
+            userID: user.id
+          })
+
+          await newUser.save();
+
+          db = await userdb.findOne({
+          userID: user.id
+        })
+        }
+
+      //userdb.perfil.mapas;
+
+      
+
+      if (db.perfil.mapasMw.length === 0){
+        return interaction.editReply({
+          content: `${language[interaction.locale] ? language[interaction.locale].mapas.nenhum : "You don't have any maps in the list, do you want to add them?"}`,
+          components: [new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+            .setLabel("✅")
+            .setCustomId(`addMap_${interaction.id}`)
+            .setStyle(ButtonStyle.Secondary)
+          )]
+        })
+      } else {
+
+        let options = [];
+
+        let i = 0;
+
+        db.perfil.mapasMw.map(map => {
+          options.push({
+            name: map.name,
+            description: "Click to select",
+            value: i
+          })
+
+          i++;
+        })
+
+        let menu = new ActionRowBuilder()
+        .addComponente(
+          new StringSelectMenuBuilder()
+          .setCustomId(`mapas_${interaction.id}`)
+          .setPlaceholder(`${language[interaction.locale] ? language[interaction.locale].mapas.select : "Map List"}`)
+          .addOptions(options)
+        );
+
+        await interaction.editReply({
+          components: [menu, button],
+          content: `${language[interaction.locale] ? language[interaction.locale].mapas.text : "Select the map below to edit!"}`
+        })
+      }
+
+      collector(async(i) => {
+
+        if (i.isButton()){
+          if (i.customId === `addMap_${interaction.id}`){
+
+
+            
+          }
+        }
+      })
+    }
+
+    
     if (cmd === "view"){
       let user = interaction.options.getUser("user") || interaction.user;
 
@@ -63,8 +150,7 @@ module.exports = {
         })
         }
 
-      await interaction.deferReply();
-
+      
       return ProfileImage(user.displayAvatarURL({format: 'png'}), db.uid, user.username, db.economia.moedas, db.perfil.sobremim, `${language[interaction.locale] ? language[interaction.locale].ver.sobremim : "About me:"}`, interaction, db.perfil.banner);
     }
 
@@ -114,7 +200,7 @@ module.exports = {
 
       let file = new AttachmentBuilder(`MiniWorldBOT/src/img/${db.perfil.banner}`);
 
-      await interaction.reply({
+      await interaction.editReply({
         files: [file],
         components: [menu, new ActionRowBuilder()
                     .addComponents(

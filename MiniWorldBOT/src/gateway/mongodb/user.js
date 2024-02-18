@@ -15,7 +15,7 @@ const data = new Schema({
 
   perfil: {
     sobremim: { type: String, default: "Não definido "},
-    mapas: { type: Array, default: [] },
+    mapasMw: { type: Array, default: [] },
     banners: { type: Array, default: [] },
     banner: { type: String, default: "profile.png" },
     emblema: {

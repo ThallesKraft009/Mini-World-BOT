@@ -44,14 +44,11 @@ module.exports = {
       },{
         name: "Mini World: CREATA (Indonésia)",
         value: "https://discord.gg/649wjCWn5U"
-      },{
-        name: "Mini World: CREATA (Arabi)",
-        value: "https://discord.gg/jxsrtDe3wt"
       }],
       color: 255
     };
 
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [embed],
       ephemeral: true
     })

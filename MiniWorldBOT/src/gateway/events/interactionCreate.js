@@ -10,6 +10,7 @@ client.on("interactionCreate", async (interaction) => {
 
     if (!command) return;
 
+    await interaction.deferReply();
     
     try {
       command.run(client, interaction);

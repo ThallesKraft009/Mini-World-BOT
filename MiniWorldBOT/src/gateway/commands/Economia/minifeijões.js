@@ -166,7 +166,7 @@ module.exports = {
         .setStyle(ButtonStyle.Secondary),
       )
 
-     let response = await interaction.reply({
+     let response = await interaction.editReply({
         embeds: [embeds[i]],
         components: [button]
       })
@@ -320,7 +320,7 @@ module.exports = {
       let response = `You can only work again in: ${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s ! `
 
 
-          return await interaction.reply({
+          return await interaction.editReply({
           content: `${language[interaction.locale] ? language[interaction.locale]["work"].time.replace("(time)", `${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s`) : response}`,
           ephemeral: true
         })
@@ -332,7 +332,7 @@ db.economia.work_time = Date.now() + tempo("1h");
 db.economia.moedas += quantia;
 
               await db.save();
-      await interaction.reply({
+      await interaction.editReply({
             content: `${Array.replace("(beans)", quantia)}`
           })
         
@@ -352,7 +352,7 @@ db.economia.moedas += quantia;
         color: 16776960
       };
 
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [embed]
       })
     }
@@ -366,7 +366,7 @@ db.economia.moedas += quantia;
 
       if (interaction.locale == "pt-BR") userIsAuthor = `Você não pode enviar Mini Feijões para você mesmo!`
 
-      if (userId === interaction.user.id) return await interaction.reply({
+      if (userId === interaction.user.id) return await interaction.editReply({
           content: `${userIsAuthor}`,
           ephemeral: true
         })
@@ -409,7 +409,7 @@ db.economia.moedas += quantia;
 
         
 
-        return await interaction.reply({
+        return await interaction.editReply({
           content: `${language[interaction.locale] ? language[interaction.locale]["pay"].beans : responseIf}`,
           flags: 64
         })
@@ -426,7 +426,7 @@ db.economia.moedas += quantia;
 
         
 
-        await interaction.reply({
+        await interaction.editReply({
           content: `${language[interaction.locale] ? language[interaction.locale]["pay"].response.replace("(beans)", quantidade).replace("(user)", `<@${userId}>`) : response}`
         })
       
@@ -490,7 +490,7 @@ let mention;
         }
 
         
-        await interaction.reply({
+        await interaction.editReply({
           content: `${mention ? `${data.response_mention}` : `${data.response_author}` }`
         })
       
@@ -519,7 +519,7 @@ let mention;
         
 
 
-          await interaction.reply({
+          await interaction.editReply({
           content: `${language[interaction.locale] ? language[interaction.locale]["daily"].time.replace("(time)", `${ms(calc).hours}h ${ms(calc).minutes}m ${ms(calc).seconds}s`) : response}`,
           ephemeral: true
         })
@@ -537,7 +537,7 @@ let mention;
         "economia.daily_time": Date.now() + tempo("24h")
       }})
 
-         await interaction.reply({
+         await interaction.editReply({
           content: `${language[interaction.locale] ? language[interaction.locale]["daily"].response.replace("(beans)", money) : response}`
         })
       

@@ -72,7 +72,7 @@ module.exports = {
 
     
 
-        await interaction.reply({
+        await interaction.editReply({
           content: `${data.response.replace("(uid)", uid).replace("(member)", `<@${userId}>`)}`
         })
     
