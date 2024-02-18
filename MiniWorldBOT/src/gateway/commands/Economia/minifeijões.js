@@ -436,21 +436,21 @@ db.economia.moedas += quantia;
 
       if (subCmd === "atm"){
 
-        let userId = interaction.options.getUser("member").id || interaction.user.id
+        let userId = interaction.options.getUser("member") || interaction.user
 
         let db = await userdb.findOne({
-          userID: userId
+          userID: userId.id
         })
 
         if (!db) {
           let newUser = new userdb({
-            userID: userId
+            userID: userId.id
           })
 
           await newUser.save();
 
           db = await userdb.findOne({
-          userID: userId
+          userID: userId.id
         })
         }
 
