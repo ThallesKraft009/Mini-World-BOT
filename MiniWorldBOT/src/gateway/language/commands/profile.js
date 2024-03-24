@@ -36,9 +36,15 @@ module.exports = {
          "nenhum": "Você não tem nenhum mapa, quer adicionar agora mesmo?",
          "botao": "Enviar Mapa",
          "text": "Selecione o mapa abaixo pra editar!",
-         "select": "Lista de Mapas"
+         "select": "Lista de Mapas",
+         "dm": "Veja sua DM (Privado)",
+          _1: "Qual o nome do seu mapa?",
+          _2: "Qual a descrição do seu mapa?",
+          _3: "Mapa salvo."
        } 
   },
+
+  
   "es-ES": {
 
     "ver": {
@@ -56,7 +62,18 @@ module.exports = {
       },
 
       "sobremim": "Editar sobre mí",
-      }
+      },
+
+    "mapas": {
+         "nenhum": "No tienes ningun mapa en tu lista ¿quieres agregar alguno?",
+         "botao": "Enviar Mapa",
+         "text": "Selecciona un mapa para editarlo",
+         "select": "Lista de Mapas",
+         "dm": "Revisa tu MD (privado)",
+          _1: "¿Cual es el nombre de tu mapa?",
+          _2: "Coloca una descripción de tu mapa",
+          _3: "Guardado"
+       } 
 
        
   }

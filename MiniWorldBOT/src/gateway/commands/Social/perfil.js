@@ -39,17 +39,19 @@ module.exports = {
       "es-ES": "Edita tu perfil"
     },
     type: 1
- /* },{
+  },{
     name: "maps",
     name_localizations: {
-      "pt-BR": "mapas"
+      "pt-BR": "mapas",
+      "es-ES": "mapas"
     },
 
     description: "Edit the display of your maps",
     description_localizations: {
-      "pt-BR": "Edite a exibição de seus mapas"
+      "pt-BR": "Edite a exibição de seus mapas",
+      "es-ES": "Edita la presentación de tus mapas"
     },
-    type: 1*/
+    type: 1
   }],
 
   run: async(client, interaction) => {
@@ -73,12 +75,93 @@ module.exports = {
           userID: user.id
         })
         }
+     //db.perfil.mapasMw = []
+    // await db.save()
 
       //userdb.perfil.mapas;
 
       
 
-      if (db.perfil.mapasMw.length === 0){
+
+      collector(async(i) => {
+
+        if (i.isStringSelectMenu()){
+          if (i.customId === `mapas_${interaction.id}`){
+
+            let value = i.values[0];
+
+            
+
+              let number = Number(`${value}`)
+
+              let index = db.perfil.mapasMw.indexOf(number);
+
+            db.perfil.mapasMw.splice(index, 1);
+
+              await db.save();
+
+              await i.update({
+                content: "Map removed."
+              })
+            
+          }
+        }
+
+        if (i.isButton()){
+          
+          if (i.customId === `addMap_${interaction.id}`){
+
+          
+            await i.reply({
+              content: `${language[interaction.locale] ? language[interaction.locale].mapas.dm : "See your DM (Private)"}`,
+              ephemeral: true
+            })
+
+            let msg = await interaction.user.send({
+              content: `${language[interaction.locale] ? language[interaction.locale].mapas._1 : "What is the name of your map?"}`
+            })
+
+            let data = {
+              nome: null,
+              description: null
+            };
+
+            let collector = msg.channel.createMessageCollector({ time: 15_000 });
+
+collector.on('collect', async(m) => {
+
+  if (m.author.bot) return;
+
+  data.nome = m.content;
+
+  let msg_2 = await m.reply({
+    content: `${language[interaction.locale] ? language[interaction.locale].mapas._2 : "Provide a brief description of your map."}`
+  })
+                    await collector.stop();
+
+  let collector_2 = msg_2.channel.createMessageCollector({ time: 15_000 });
+
+  collector_2.on("collect", async(m_2)=>{
+
+    if (m_2.author.bot) return;
+    data.description = m_2.content;
+
+    await collector_2.stop();
+
+    db.perfil.mapasMw.push(data);
+
+    await db.save();
+    await interaction.user.send({
+      content: `${language[interaction.locale] ? language[interaction.locale].mapas._3 : "Saved."}`
+    })
+  })
+  
+});
+          }
+        }
+      })
+
+            if (db.perfil.mapasMw.length === 0){
         return interaction.editReply({
           content: `${language[interaction.locale] ? language[interaction.locale].mapas.nenhum : "You don't have any maps in the list, do you want to add them?"}`,
           components: [new ActionRowBuilder().addComponents(
@@ -95,17 +178,18 @@ module.exports = {
         let i = 0;
 
         db.perfil.mapasMw.map(map => {
+          console.log(map)
           options.push({
-            name: map.name,
+            label: map.nome,
             description: "Click to select",
-            value: i
+            value: `${i}`
           })
 
           i++;
         })
 
         let menu = new ActionRowBuilder()
-        .addComponente(
+        .addComponents(
           new StringSelectMenuBuilder()
           .setCustomId(`mapas_${interaction.id}`)
           .setPlaceholder(`${language[interaction.locale] ? language[interaction.locale].mapas.select : "Map List"}`)
@@ -113,21 +197,16 @@ module.exports = {
         );
 
         await interaction.editReply({
-          components: [menu, button],
+          components: [menu, new ActionRowBuilder().addComponents(
+                        new ButtonBuilder()
+                        .setLabel("✅")
+                        .setCustomId(`addMap_${interaction.id}`)
+                        .setStyle(ButtonStyle.Secondary)
+                      )],
           content: `${language[interaction.locale] ? language[interaction.locale].mapas.text : "Select the map below to edit!"}`
         })
-      }
-
-      collector(async(i) => {
-
-        if (i.isButton()){
-          if (i.customId === `addMap_${interaction.id}`){
-
-
+            }
             
-          }
-        }
-      })
     }
 
     
@@ -151,7 +230,7 @@ module.exports = {
         }
 
       
-      return ProfileImage(user.displayAvatarURL({format: 'png'}), db.uid, user.username, db.economia.moedas, db.perfil.sobremim, `${language[interaction.locale] ? language[interaction.locale].ver.sobremim : "About me:"}`, interaction, db.perfil.banner);
+      return ProfileImage(user.displayAvatarURL({format: 'png'}), db.uid, user.username, db.economia.moedas, db.perfil.sobremim, `${language[interaction.locale] ? language[interaction.locale].ver.sobremim : "About me:"}`, interaction, db.perfil.banner, db.perfil.mapasMw);
     }
 
     if (cmd === "edit"){

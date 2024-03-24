@@ -1,14 +1,14 @@
 const { createCanvas, loadImage, registerFont } = require('canvas');
 const fs = require('fs');
-
+const language = require("../language/commands/profile.js")
 registerFont('MiniWorldBOT/src/fonts/oswald.ttf', {
   family: 'Oswald'
 })
 
-const { AttachmentBuilder } = require("discord.js");
+const { AttachmentBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
+const  { collector } = require("./collector.js");
 
-
-async function ProfileImage(userAvatar, uid, userName, minibeans, sobremim_, sobremimIdioma, interaction, banner, isAuthor){
+async function ProfileImage(userAvatar, uid, userName, minibeans, sobremim_, sobremimIdioma, interaction, banner, mapas){
 let data = {
   userAvatar: userAvatar.replace("webp", "png"),
   uid: uid,
@@ -73,14 +73,57 @@ loadImage(`MiniWorldBOT/src/img/${banner}`).then((background) => {
     context.fillText(data.uid, 930, 120);
 
     
+    
  let file = new AttachmentBuilder(await canvas.toBuffer(), { name: 'profile-image.png' });
 
-    
+  let ver = () => {
+    return mapas.length !== 0;
+  }
 
+    if (!ver()){
+  
 await interaction.editReply({
   files: [file]
 })
+    } else {
 
+      let datas = [];
+       let n = 0;
+      mapas.map(map => {
+        datas.push({
+          label: map.nome, 
+          description: "Click to select",
+          value: `${n}`
+        })
+        n++;
+      })
+
+      let menu = new ActionRowBuilder()
+        .addComponents(
+          new StringSelectMenuBuilder()
+          .setCustomId(`mapasList_${interaction.id}`)
+          .setPlaceholder(`${language[interaction.locale] ? language[interaction.locale].mapas.select : "Map List"}`)
+          .addOptions(datas)
+        );
+
+      await interaction.editReply({
+  files: [file],
+        components: [menu]
+})
+
+      collector(async(int)=>{
+        if (int.isStringSelectMenu()){
+          if (int.customId === `mapasList_${interaction.id}`){
+
+            return int.reply({
+              content: `${mapas[Number(`${int.values[0]}`)].nome}\n\n${mapas[Number(`${int.values[0]}`)].description}`,
+              ephemeral: true
+            })
+          }
+        }
+      })
+    }
+    
   
 });
 })

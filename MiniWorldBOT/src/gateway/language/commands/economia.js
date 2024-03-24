@@ -21,12 +21,20 @@ module.exports = {
     },
 
     "shop": {
+      
       "banner": "Imagem de fundo pra perfil",
+
+      "badge": "Emblema",
 
       "banner_buy": "Você comprou a Imagem de fundo pra Perfil! Utilize </perfil editar:12345> para equipar a imagem de perfil!",
 
       "banner_tem": "Você já tem esse item comprado!"
-    }
+    },
+
+
+    "guessnumber": "Você acertou o número e ganhou uma quantidade de Mini feijões!",
+
+    "guessnumber_no": "Você não acertou o número!"
   },
 
   "es-ES": {
@@ -60,5 +68,9 @@ module.exports = {
     "rank": {
       "title": "Rango en Mini Frijoles"
     },
+
+    "guessnumber": "¡Adivinaste el numero! ¡Ganaste una buena cantidad de mini frijoles!",
+
+    "guessnumber_no": "No adivinaste el numero :("
   }
 }

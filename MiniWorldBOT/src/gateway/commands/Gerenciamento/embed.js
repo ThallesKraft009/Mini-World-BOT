@@ -10,11 +10,13 @@ module.exports = {
   options: [{
     name: "create",
     name_localizations: {
-      "pt-BR": "criar"
+      "pt-BR": "criar",
+      "es-ES": "crear"
     },
     description: "Create a fully customized embed",
     description_localizations: {
-      "pt-BR": "Crie uma embed totalmente personalizada"
+      "pt-BR": "Crie uma embed totalmente personalizada",
+      "es-ES": "Crea un mensaje incrustado personalizado"
     },
     type: 1
   }],

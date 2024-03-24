@@ -13,5 +13,22 @@ module.exports = {
       "conteudo": "Escreva o conteúdo da Opção",
       "title": "Configuração da Embed"
     }
+  },
+
+
+  "es-ES": {
+    "buttons": {
+      "title": "Titulo",
+      "description": "Descripción",
+      "footer": "Pie de página",
+      "color": "Color",
+      "send": "Enviar",
+      "json": "Consigue JSON"
+    },
+
+    "modal": {
+      "conteudo": "Escribe el contenido",
+      "title": "Configuración de mensaje incrustado"
+    }
   }
 };

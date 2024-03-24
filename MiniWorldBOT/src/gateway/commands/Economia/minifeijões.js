@@ -86,7 +86,8 @@ module.exports = {
           "es-ES": "Coloca la cantidad de Mini Frijoles que quieres pagar"
         },
         type: 10,
-        required: true
+        required: true,
+        min_value: 1
       }]
     },{
       name: "rank",
@@ -124,10 +125,62 @@ module.exports = {
         "pt-BR": "Veja a loja diária",
         "es-ES": "Mira la tienda diaria"
       }
+    },{
+      name: "guessnumber",
+      
+      description: "Guess the number from 1 to 10 that I'm thinking of and win a quantity of mini beans",
+      type: 1,
+      name_localizations: {
+        "pt-BR": "adivinheonumero",
+        "es-ES": "adivina-el-nombre"
+      },
+      description_localizations: {
+        "pt-BR": "Adivinhe o número de 1 a 10 que estou pensando e ganhe uma quantidade de mini feijões",
+        "es-ES": "Adivina el numero del 1-10 que estoy pensando y gana una cantidad de mini frijoles"
+      },
+      options: [{
+        name: "number",
+        description: "Enter a number from 1 to 10",
+        type: 10,
+        max_value: 10,
+        required: true
+      }]
     }],
   run: async function(client, interaction) {
 
     let subCmd = interaction.options.getSubcommand();
+
+    if (subCmd === "guessnumber"){
+      let db = await userdb.findOne({ userID: interaction.user.id })
+
+      if (!db){
+        let newuser = new userdb({ userID: interaction.user.id })
+
+        await newuser.save();
+
+        db = await userdb.findOne({ userID: interaction.user.id })
+      }
+
+      let numeroAleatorio = Math.floor(Math.random() * 10) + 1;
+
+      if (numeroAleatorio === interaction.options.getNumber("number")){
+
+        let moedas = Math.floor(Math.random() * 100) + 1;
+
+        db.economia.moedas += moedas;
+        await db.save();
+
+        await interaction.editReply({
+          content: `${language[interaction.locale] ? language[interaction.locale].guessnumber : "You guessed the number and won a quantity of Mini beans!"}`
+        })
+      } else {
+
+                await interaction.editReply({
+          content: `${language[interaction.locale] ? language[interaction.locale].guessnumber_no : "You didn't guess the number!"}`
+        })
+      }
+
+    }
 
     if (subCmd === "shop"){
 
@@ -142,6 +195,10 @@ module.exports = {
           embeds.push(new EmbedBuilder().setTitle(`${language[interaction.locale] ? language[interaction.locale].shop.banner : "Background image for Profile"}`).setImage(`${shop[page].url}`).setColor("Yellow"))
         
       }
+
+        if (shop[page].type === "badge"){
+          embeds.push(new EmbedBuilder().setTitle(`${language[interaction.locale] ? language[interaction.locale].shop.badge : "Badge"}`).setImage(`${shop[page].url}`).setColor("Blue"));
+        }
 
         continue;
 

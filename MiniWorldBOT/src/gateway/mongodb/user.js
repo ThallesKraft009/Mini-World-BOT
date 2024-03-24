@@ -13,18 +13,32 @@ const data = new Schema({
     work_time: { type: Number, default: 0 }
   },
 
+  rpg: {
+    item: {
+      madeira: { type: Number, default: 0 },
+      pedra: { type: Number, default: 0 },
+    },
+
+    blocks: {
+      cooper: { type: Number, default: 0 },
+      mithril: { type: Number, default: 0 },
+      titanio: { type: Number, default: 0 }
+    },
+
+    picaretas: {
+      stone: { type: Array, default: [] },
+      cooper: { type: Array, default: [] },
+      mithril: { type: Array, default: [] }
+    }
+  },
+
   perfil: {
     sobremim: { type: String, default: "Não definido "},
     mapasMw: { type: Array, default: [] },
     banners: { type: Array, default: [] },
     banner: { type: String, default: "profile.png" },
-    emblema: {
-      dev: { type: Boolean, default: false },
-      conhecedor: { type: Boolean, default: false },
-      yt: { type: Boolean, default: false },
-      staffBot: { type: Boolean, default: false },
-      staffServer: { type: Boolean, default: false }
-    }
+    badges: { type: Array, default: [] },
+    personagem: { type: String, default: "<:kaka:1147585577298972745>"}
   }
 });
 
