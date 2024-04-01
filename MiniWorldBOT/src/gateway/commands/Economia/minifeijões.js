@@ -145,10 +145,139 @@ module.exports = {
         max_value: 10,
         required: true
       }]
+    },{
+      name: "bug",
+      description: "Bug....",
+      type: 1
     }],
   run: async function(client, interaction) {
 
     let subCmd = interaction.options.getSubcommand();
+
+    if (subCmd === "bug"){
+
+      let l = {
+        "pt-BR": [
+          "Iniciando bug....",
+          `Bugando mini moedas de ${interaction.user}...\nStatus: 2%`,
+          `Jogando Mini World por enquanto...\nStatus: 10%`,
+          `Colocando ID de erro ${interaction.user.id}....\nStatus: 20%`, 
+          `Assistindo "Homem araha sem volta pra casa"...\nStatus: 30%`,
+        `Impedindo o bug de ser cancelado...\nStatus: 49%`,
+        `Pensando sobre a vida...\nStatus: 60%`,
+        `Não existe um espelho que nunca foi usado...\nStatus: 79%`,
+        `Fugindo de ThallesKraft pra você bugar....\nStatus: 85%`,
+        `Pensando como passar nas provas de matemática....\nStatus: 90%`,
+        `Finalizando bug...\nStatus: 99%`],
+
+        "es-ES": [
+  "Iniciando error....",
+  `Bugando mini monedas de ${interaction.user}...\nEstado: 2%`,
+  `Jugando Mini World por el momento...\nEstado: 10%`,
+  `Estableciendo ID de error ${interaction.user.id}....\nEstado: 20%`, 
+  `Viendo "Spider-Man No Way Home"...\nEstado: 30%`,
+  `Evitando que el error sea cancelado...\nEstado: 67%`,
+  `Contemplando la vida...\nEstado: 78%`,
+  `No hay espejo que nunca haya sido usado...\nEstado: 79%`,
+          `Escapando de ThallesKraft para que puedas fallar....\nEstado: 85%`,
+`Pensando cómo pasar los exámenes de matemáticas....\nEstado: 90%`,
+  `Finalizando error...\nEstado: 99%`
+],
+
+        "en": [
+  "Initiating bug....",
+  `Bugging mini coins from ${interaction.user}...\nStatus: 2%`,
+  `Playing Mini World for now...\nStatus: 10%`,
+  `Setting error ID ${interaction.user.id}....\nStatus: 20%`, 
+  `Watching "Spider-Man No Way Home"...\nStatus: 30%`,
+  `Preventing bug from being canceled...\nStatus: 67%`,
+  `Contemplating life...\nStatus: 78%`,
+  `There's no mirror that has never been used...\nStatus: 79%`,
+          `Escaping from ThallesKraft so you can bug....\nStatus: 85%`,
+`Thinking about how to pass math exams....\nStatus: 90%`,
+  `Finalizing bug...\nStatus: 99%`
+]
+        
+        
+      }
+
+      let array = l[interaction.locale] ? l[interaction.locale] : l["en"];
+
+     await interaction.editReply({
+        content: `${array[0]}`
+      })
+
+      let i = 0;
+      
+        setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[1]}`
+          })
+
+          setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[2]}`
+          })
+
+            setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[3]}`
+          })
+
+              setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[4]}`
+          })
+
+                setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[5]}`
+          })
+
+                  setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[6]}`
+          })
+
+                    setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[7]}`
+          })
+
+
+                      setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[8]}`
+          })
+
+setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[9]}`
+          })
+
+setTimeout(async() => {
+          await interaction.editReply({
+            content: `${array[10]}`
+          })
+
+
+                          setTimeout(async() => {
+          await interaction.editReply({
+            content: `https://tenor.com/view/rickroll-roll-rick-never-gonna-give-you-up-never-gonna-gif-22954713`
+          })
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+        }, 5000)
+      
+    }
 
     if (subCmd === "guessnumber"){
       let db = await userdb.findOne({ userID: interaction.user.id })
